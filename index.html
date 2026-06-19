@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><span class="cfg-nome-completo">Dra. Cintia Freire</span> | Cirurgiã Bucomaxilofacial & Estética Facial</title>
+<meta name="description" content="<span class="cfg-nome-completo">Dra. Cintia Freire</span>, Cirurgiã Bucomaxilofacial formada pela UFF. Especialista em harmonização facial, cirurgia facial e estética avançada com resultados naturais e seguros.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --off-white: #F8F6F3;
+    --champagne: #D8C7B0;
+    --champagne-light: #EAE0D4;
+    --grafite: #2E2E2E;
+    --grafite-soft: #4A4A4A;
+    --gold: #B89A6A;
+    --gold-light: #CDB58A;
+    --gold-pale: #F0E8DA;
+    --white: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--off-white);
+    color: var(--grafite);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(248,246,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,154,106,0.15);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(46,46,46,0.08); }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--grafite);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-logo-img { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo-svg { height: 180px; width: auto; display: block; }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grafite-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--grafite);
+    color: var(--white) !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 2px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--white) !important; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    padding-top: 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    background: linear-gradient(135deg, var(--off-white) 60%, var(--champagne-light) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(180deg, var(--champagne-light) 0%, var(--champagne) 100%);
+    z-index: 0;
+  }
+  .hero-content {
+    padding: 6rem 5% 6rem 8%;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--grafite);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--grafite-soft);
+    max-width: 460px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .btn-primary {
+    background: var(--grafite);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+  .btn-whatsapp {
+    background: transparent;
+    color: var(--grafite);
+    padding: 0.9rem 2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid var(--champagne);
+    border-radius: 2px;
+    transition: border-color 0.25s, color 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-whatsapp:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-trust {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--grafite-soft);
+  }
+  .trust-item::before {
+    content: '✓';
+    width: 18px;
+    height: 18px;
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1;
+    padding-top: 1px;
+  }
+  .hero-image {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 3rem 8% 0 4%;
+  }
+  .hero-photo-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+  }
+  .hero-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #E8D9C8 0%, #C9B090 100%);
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(46,46,46,0.4);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-align: center;
+    gap: 1rem;
+  }
+  .hero-photo-placeholder svg { opacity: 0.35; }
+  .hero-badge {
+    position: absolute;
+    bottom: 2rem;
+    left: -1.5rem;
+    background: var(--white);
+    border: 1px solid var(--champagne);
+    padding: 1rem 1.25rem;
+    border-radius: 4px;
+    box-shadow: 0 8px 32px rgba(46,46,46,0.1);
+  }
+  .hero-badge-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .hero-badge-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--grafite-soft);
+    letter-spacing: 0.05em;
+    margin-top: 0.2rem;
+  }
+
+  /* ── SECTIONS GENERIC ── */
+  section { padding: 6rem 5%; }
+
+  .section-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--grafite);
+    max-width: 600px;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--grafite-soft);
+    max-width: 560px;
+    margin-bottom: 3rem;
+  }
+  .gold-divider {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 3rem;
+  }
+
+  /* ── AUTORIDADE ── */
+  #autoridade {
+    background: var(--white);
+    max-width: 100%;
+  }
+  .autoridade-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .autoridade-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--champagne-light);
+    border: 1.5px solid var(--champagne-light);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .aut-card {
+    background: var(--white);
+    padding: 2.2rem 2rem;
+    transition: background 0.25s;
+  }
+  .aut-card:hover { background: var(--gold-pale); }
+  .aut-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 1.2rem;
+    color: var(--gold);
+  }
+  .aut-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.6rem;
+  }
+  .aut-card p {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--grafite-soft);
+  }
+  .aut-stat {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── AREAS ── */
+  #areas { background: var(--off-white); }
+  .areas-inner { max-width: 1200px; margin: 0 auto; }
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .area-card {
+    background: var(--white);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 2.2rem 2rem;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .area-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 0.35s;
+  }
+  .area-card:hover {
+    border-color: var(--champagne);
+    box-shadow: 0 8px 32px rgba(46,46,46,0.07);
+    transform: translateY(-3px);
+  }
+  .area-card:hover::after { width: 100%; }
+  .area-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--gold-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.4rem;
+    color: var(--gold);
+  }
+  .area-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.6rem;
+  }
+  .area-benefit {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .area-card p {
+    font-size: 0.83rem;
+    line-height: 1.7;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    margin-bottom: 1.4rem;
+  }
+  .area-cta {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .area-cta:hover { color: var(--grafite); }
+
+  /* ── DIFERENCIAIS ── */
+  #diferenciais {
+    background: var(--grafite);
+    color: var(--white);
+  }
+  .dif-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .dif-left .section-eyebrow { color: var(--champagne); }
+  .dif-left .section-eyebrow::before { background: var(--champagne); }
+  .dif-left .section-title { color: var(--white); max-width: 420px; }
+  .dif-left .section-sub { color: rgba(255,255,255,0.6); }
+  .dif-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .dif-item {
+    padding: 1.5rem;
+    border: 1px solid rgba(216,199,176,0.15);
+    border-radius: 4px;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .dif-item:hover {
+    border-color: var(--gold);
+    background: rgba(184,154,106,0.07);
+  }
+  .dif-item-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(184,154,106,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--gold);
+  }
+  .dif-item h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .dif-item p {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+  }
+
+  /* ── ANTES/DEPOIS ── */
+  #antes-depois { background: var(--white); }
+  .ad-inner { max-width: 1200px; margin: 0 auto; }
+  .ad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .slider-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .ad-card {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--champagne-light);
+  }
+  .ad-imgs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .ad-img-placeholder {
+    aspect-ratio: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .ad-antes { background: linear-gradient(160deg, #D9CCBF, #C0AD99); color: rgba(46,46,46,0.5); }
+  .ad-depois { background: linear-gradient(160deg, #E8D9C8, #D5BFA4); color: rgba(46,46,46,0.5); }
+  .ad-label {
+    padding: 1.2rem 1.5rem;
+    background: var(--off-white);
+  }
+  .ad-proc {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.2rem;
+  }
+  .ad-desc {
+    font-size: 0.73rem;
+    color: var(--grafite-soft);
+    font-weight: 300;
+  }
+  .ad-cta-wrap { text-align: center; }
+
+  /* ── DEPOIMENTOS ── */
+  #depoimentos { background: var(--off-white); }
+  .dep-inner { max-width: 1200px; margin: 0 auto; }
+  .dep-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .dep-card {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 2rem;
+    border: 1px solid var(--champagne-light);
+    position: relative;
+  }
+  .dep-stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 1.2rem;
+  }
+  .dep-stars span { color: var(--gold); font-size: 0.9rem; }
+  .dep-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--grafite);
+    margin-bottom: 1.5rem;
+  }
+  .dep-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .dep-avatar {
+    width: 42px;
+    height: 42px;
+    background: var(--champagne-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .dep-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--grafite);
+  }
+  .dep-proc {
+    font-size: 0.73rem;
+    color: var(--grafite-soft);
+    font-weight: 300;
+  }
+  .dep-quote-mark {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: var(--gold-pale);
+    line-height: 1;
+  }
+
+  /* ── MÉTODO ── */
+  #metodo {
+    background: var(--white);
+  }
+  .met-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .met-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .met-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.5rem;
+    position: relative;
+    padding-bottom: 2.5rem;
+  }
+  .met-step:last-child { padding-bottom: 0; }
+  .met-step::before {
+    content: '';
+    position: absolute;
+    left: 29px;
+    top: 60px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--gold), var(--champagne-light));
+  }
+  .met-step:last-child::before { display: none; }
+  .met-num {
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--gold);
+    background: var(--white);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .met-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.4rem;
+    padding-top: 0.9rem;
+  }
+  .met-content p {
+    font-size: 0.83rem;
+    line-height: 1.7;
+    color: var(--grafite-soft);
+    font-weight: 300;
+  }
+  .met-right {
+    background: var(--gold-pale);
+    border-radius: 4px;
+    padding: 3rem;
+    border: 1px solid var(--champagne);
+  }
+  .met-right h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.8rem;
+  }
+  .met-right p {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .met-right-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2rem;
+  }
+  .met-right-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.83rem;
+    color: var(--grafite);
+    font-weight: 400;
+  }
+  .met-right-list li::before {
+    content: '—';
+    color: var(--gold);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTEUDO ── */
+  #conteudo { background: var(--off-white); }
+  .cont-inner { max-width: 1200px; margin: 0 auto; }
+  .cont-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .cont-card {
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--champagne-light);
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .cont-card:hover {
+    box-shadow: 0 8px 32px rgba(46,46,46,0.08);
+    transform: translateY(-3px);
+  }
+  .cont-img {
+    height: 160px;
+    background: linear-gradient(135deg, var(--champagne-light) 0%, var(--champagne) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+  .cont-body { padding: 1.5rem; }
+  .cont-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .cont-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.5rem;
+    line-height: 1.35;
+  }
+  .cont-card p {
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .cont-link {
+    font-size: 0.73rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* ── CTA FINAL ── */
+  #cta-final {
+    background: linear-gradient(135deg, var(--grafite) 0%, #1A1A1A 100%);
+    text-align: center;
+    padding: 7rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+  #cta-final::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(184,154,106,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-final-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .cta-final-eyebrow::before, .cta-final-eyebrow::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--champagne);
+  }
+  .cta-final-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    max-width: 680px;
+    margin: 0 auto 1.5rem;
+  }
+  .cta-final-title em { font-style: italic; color: var(--gold); }
+  .cta-final-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+  }
+  .cta-final-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--white);
+    padding: 1rem 2.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline-white {
+    background: transparent;
+    color: var(--white);
+    padding: 1rem 2.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 2px;
+    transition: border-color 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-outline-white:hover { border-color: var(--champagne); color: var(--champagne); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1A1A1A;
+    padding: 4rem 5% 2rem;
+    border-top: 1px solid rgba(184,154,106,0.15);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-brand .nav-logo {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .footer-desc {
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .footer-crm {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .footer-col h4 {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 1.2rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li {
+    margin-bottom: 0.65rem;
+  }
+  .footer-col a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-social {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .social-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .social-btn:hover { background: var(--gold); color: var(--white); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+    font-weight: 300;
+  }
+  .footer-legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .footer-legal a {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-legal a:hover { color: var(--gold); }
+
+  /* ── MODAL LEAD ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(46,46,46,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    animation: modal-in 0.3s ease;
+  }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--grafite-soft);
+    line-height: 1;
+  }
+  .modal-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 1.6rem;
+    line-height: 1.3;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--grafite-soft);
+    margin-bottom: 0.4rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--champagne-light);
+    border-radius: 2px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: var(--grafite);
+    background: var(--off-white);
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--grafite);
+    color: var(--white);
+    border: none;
+    border-radius: 2px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--gold); }
+  .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .form-success-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--gold-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: var(--gold);
+  }
+  .form-success h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.5rem;
+  }
+  .form-success p {
+    font-size: 0.85rem;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .form-error-msg {
+    font-size: 0.78rem;
+    color: #c0392b;
+    margin-top: 0.75rem;
+    display: none;
+  }
+
+  /* ── FLOATING WHATSAPP ── */
+  .floating-wa {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 90;
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    text-decoration: none;
+    animation: pulse-wa 2.5s infinite;
+    transition: transform 0.2s;
+  }
+  .floating-wa:hover { transform: scale(1.1); }
+  @keyframes pulse-wa {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 4px 36px rgba(37,211,102,0.7); }
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; min-height: auto; padding-bottom: 0; }
+    #hero::before { display: none; }
+    .hero-content { padding: 3rem 5%; }
+    .hero-image { padding: 2rem 5% 0; }
+    .hero-photo-placeholder { aspect-ratio: 4/3; }
+    .autoridade-grid,
+    .areas-grid,
+    .dep-grid,
+    .cont-grid { grid-template-columns: 1fr; }
+    .dif-inner,
+    .met-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .dif-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .slider-wrap { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 4rem 5%; }
+    .hero-trust { grid-template-columns: 1fr; }
+    .dif-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .ad-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── Hamburger (mobile, simple) ── */
+  .nav-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    color: var(--grafite);
+  }
+  @media (max-width: 900px) {
+    .nav-menu-btn { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+  BLOCO DE CONFIGURAÇÃO — edite apenas aqui
+  Todas as informações abaixo são aplicadas automaticamente
+  na página inteira pelo script no final do arquivo.
+============================================================ -->
+<script id="cfg">
+window.CFG = {
+
+  // ── IDENTIDADE ─────────────────────────────────────────────
+  nomePrimeiro:   "Cintia",           // primeiro nome (usado em títulos e textos)
+  nomeSobrenome:  "Freire",           // sobrenome
+  titulo:         "Dra.",             // prefixo
+  especialidade:  "Cirurgiã e Traumatologista Bucomaxilofacial",
+  formacao:       "Universidade Federal Fluminense (UFF)",
+  siglaFormacao:  "UFF",
+  anosExp:        "10+",              // aparece no badge do hero
+  cro:            "48482",           // número CRO
+
+  // ── CONTATO ────────────────────────────────────────────────
+  whatsapp:       "5521997911837",    // só números, com DDI (55) + DDD + número
+  whatsappLabel:  "(21) 99791-1837",  // como aparece no rodapé
+  instagram:      "https://instagram.com/dracintiafreire",
+  endereco:       "Rua Exemplo, 123 – Rio de Janeiro, RJ",
+  googleMaps:     "#",                // link do Google Maps
+
+  // ── FOTO DO HERO ───────────────────────────────────────────
+  // Cole o caminho da foto após fazer upload (ex: "./foto-dra-cintia.jpg")
+  // Enquanto não tiver foto, o placeholder elegante continua aparecendo.
+  fotoHero:       "https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/Cintia.jpeg",
+  logoNav:        "https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/logocintia.svg",
+
+  // ── SEO / META ─────────────────────────────────────────────
+  metaTitle:      "Dra. Cintia Freire | Cirurgiã Bucomaxilofacial & Estética Facial",
+  metaDesc:       "Dra. Cintia Freire, Cirurgiã Bucomaxilofacial formada pela UFF. Especialista em harmonização facial, cirurgia facial e estética avançada com resultados naturais e seguros.",
+
+  // ── SUPABASE ───────────────────────────────────────────────
+  supabaseUrl:    "https://woafnemdudmfkhagshte.supabase.co",
+  supabaseKey:    "SUA_ANON_KEY_AQUI",  // Settings > API > anon public
+  clientId:       "dra-cintia-freire",
+
+  // ── DEPOIMENTOS ────────────────────────────────────────────
+  // Edite os 3 depoimentos ou adicione mais (máx recomendado: 6)
+  depoimentos: [
+    {
+      iniciais:   "MA",
+      nome:       "Mariana A.",
+      proc:       "Harmonização Facial",
+      texto:      "O resultado superou todas as minhas expectativas. A Dra. Cintia me ouviu com atenção, explicou cada etapa e o resultado ficou completamente natural. Me sinto eu mesma, só mais bonita."
+    },
+    {
+      iniciais:   "RC",
+      nome:       "Rafael C.",
+      proc:       "Cirurgia Bucomaxilofacial",
+      texto:      "Profissional extremamente competente e humana. Fiz a cirurgia de siso e fui acompanhada em cada detalhe do pós-operatório. Segurança e cuidado em todo o processo."
+    },
+    {
+      iniciais:   "PS",
+      nome:       "Patricia S.",
+      proc:       "Rejuvenescimento Facial",
+      texto:      "Finalmente encontrei uma especialista que entende o que significa naturalidade. O meu rosto ficou mais jovial e harmonioso, sem nenhum exagero. Recomendo de olhos fechados."
+    }
+  ]
+};
+</script>
+<!-- ============================================================ -->
+
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo-img"><img src="" id="nav-logo-img" alt="Dra. Cintia Freire" class="nav-logo-svg"></a>
+  <ul class="nav-links">
+    <li><a href="#autoridade">Formação</a></li>
+    <li><a href="#areas">Serviços</a></li>
+    <li><a href="#diferenciais">Diferenciais</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#" class="nav-cta" data-track="nav_agendar" data-modal="nav">Agendar Consulta</a></li>
+  </ul>
+  <button class="nav-menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="2" y="5" width="18" height="1.5" fill="currentColor"/>
+      <rect x="2" y="10.25" width="18" height="1.5" fill="currentColor"/>
+      <rect x="2" y="15.5" width="18" height="1.5" fill="currentColor"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Cirurgiã Bucomaxilofacial</div>
+    <h1 class="hero-title">
+      Autoridade em Cirurgia<br>
+      Bucomaxilofacial e<br>
+      <em>Estética Facial Avançada.</em>
+    </h1>
+    <p class="hero-sub">
+      Formada pela Universidade Federal Fluminense, <span class="cfg-nome-completo">Dra. Cintia Freire</span> une ciência, precisão cirúrgica e naturalidade para proporcionar resultados seguros e verdadeiramente harmoniosos.
+    </p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary" data-track="hero_agendar" data-modal="hero">Agendar Consulta</a>
+      <a href="#" class="btn-whatsapp" data-track="hero_whatsapp">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar no WhatsApp
+      </a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item">Formada pela UFF</div>
+      <div class="trust-item">Atendimento Personalizado</div>
+      <div class="trust-item">Resultados Naturais</div>
+      <div class="trust-item">Segurança e Excelência</div>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-placeholder" id="hero-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="#B89A6A" stroke-width="1.5"/>
+          <path d="M8 56c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#B89A6A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span style="font-size:0.7rem;opacity:0.6">Foto Profissional<br><span class="cfg-nome-completo">Dra. Cintia Freire</span></span>
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">10+</div>
+        <div class="hero-badge-label">Anos de Experiência</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTORIDADE -->
+<section id="autoridade">
+  <div class="autoridade-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Formação &amp; Expertise</div>
+      <h2 class="section-title">Excelência baseada em conhecimento, experiência e atualização constante.</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="autoridade-grid fade-in">
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="28" width="30" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 28V18l9-6 9 6v10" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="21" cy="23" r="3" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="aut-stat">UFF</div>
+        <h3>Formação de Excelência</h3>
+        <p>Graduação em Cirurgia e Traumatologia Bucomaxilofacial pela Universidade Federal Fluminense, uma das mais respeitadas do país.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="21" cy="21" r="14" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M21 13v8l5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="aut-stat">10+</div>
+        <h3>Anos de Experiência</h3>
+        <p>Trajetória sólida com centenas de procedimentos realizados, combinando técnica refinada e sensibilidade estética.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 6l3.5 9h9.5l-7.7 5.6 2.9 9-8.2-5.9-8.2 5.9 2.9-9L7 15h9.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <div class="aut-stat">Esp.</div>
+        <h3>Especializações</h3>
+        <p>Pós-graduação em Harmonização Facial, Estética Avançada e participação ativa em congressos nacionais e internacionais.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 21h14M14 27h9M21 8v4M31.5 11.5l-2.8 2.8M10.5 11.5l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="21" cy="21" r="13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="aut-stat">CFM</div>
+        <h3>Registro Regularizado</h3>
+        <p>Devidamente registrada no CRO, com atuação ética, transparente e dentro dos protocolos estabelecidos pelo CFM.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 32l8-8 6 6 8-10 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="aut-stat">∞</div>
+        <h3>Atualização Contínua</h3>
+        <p>Participação regular em congressos, workshops e cursos de atualização para oferecer sempre o que há de mais moderno.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 9C15 9 9 14 9 21s6 12 12 12 12-5.373 12-12-4-12-12-12z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M16 21l4 4 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="aut-stat">EBM</div>
+        <h3>Evidência Científica</h3>
+        <p>Todos os protocolos são baseados em evidências científicas, garantindo segurança, previsibilidade e resultados duradouros.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AREAS DE ATUACAO -->
+<section id="areas">
+  <div class="areas-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Procedimentos</div>
+      <h2 class="section-title">Áreas de Atuação</h2>
+      <p class="section-sub">Cada procedimento é planejado individualmente, com foco em naturalidade, segurança e resultados que respeitam a harmonia do seu rosto.</p>
+    </div>
+    <div class="areas-grid fade-in">
+
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8 2 4 6 4 10c0 5 8 12 8 12s8-7 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="area-benefit">Segurança Total</div>
+        <h3>Cirurgia Bucomaxilofacial</h3>
+        <p>Correção de alterações estruturais do crânio, face e maxilares. Tratamento de traumas, patologias ósseas e deformidades com precisão cirúrgica.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
+
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div class="area-benefit">Resultados Naturais</div>
+        <h3>Harmonização Facial</h3>
+        <p>Equilíbrio e proporção facial com técnicas minimamente invasivas. Valorização das características naturais de cada paciente.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
+
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20c4.4 0 8-3.6 8-8S16.4 4 12 4 4 7.6 4 12s3.6 8 8 8z"/><path d="M8 12s1 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>
+        </div>
+        <div class="area-benefit">Aparência Jovial</div>
+        <h3>Rejuvenescimento Facial</h3>
+        <p>Protocolos integrados para restaurar a vitalidade da pele e suavizar marcas do tempo com segurança e naturalidade.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
+
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <div class="area-benefit">Volume &amp; Contorno</div>
+        <h3>Preenchimentos</h3>
+        <p>Restauração de volume, definição de contornos e correção de assimetrias com materiais de alta biocompatibilidade.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
+
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <div class="area-benefit">Expressão Suavizada</div>
+        <h3>Toxina Botulínica</h3>
+        <p>Aplicação precisa para suavizar linhas de expressão, elevar a sobrancelha, tratar bruxismo e muito mais.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
+
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 12h6M12 9v6"/></svg>
+        </div>
+        <div class="area-benefit">Alta Performance</div>
+        <h3>Estética Avançada</h3>
+        <p>Protocolos inovadores de bioestimulação, fios de sustentação e técnicas de última geração para resultados excepcionais.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="dif-inner">
+    <div class="dif-left fade-in">
+      <div class="section-eyebrow">Por que nos escolher</div>
+      <h2 class="section-title">Por que escolher a <span class="cfg-nome-completo">Dra. Cintia Freire</span>?</h2>
+      <p class="section-sub">Um atendimento que une rigor científico, humanização e sensibilidade estética — porque cada rosto conta uma história única.</p>
+      <a href="#" class="btn-gold" data-track="dif_agendar" data-modal="diferenciais">Agendar Avaliação</a>
+    </div>
+    <div class="dif-grid fade-in">
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <h4>Formação de Excelência</h4>
+        <p>Sólida base acadêmica pela UFF, referência nacional em saúde.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h4>Atendimento Humanizado</h4>
+        <p>Cada paciente recebe atenção integral, acolhimento e escuta ativa.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <h4>Planejamento Individual</h4>
+        <p>Protocolos personalizados desenvolvidos para o seu rosto e objetivos.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 12s1.5 3 4 3 4-3 4-3"/><path d="M9 9h.01M15 9h.01"/></svg>
+        </div>
+        <h4>Resultados Naturais</h4>
+        <p>Filosofia estética que valoriza a identidade e a beleza autêntica.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 0v10l4 2"/></svg>
+        </div>
+        <h4>Tecnologia Avançada</h4>
+        <p>Equipamentos de ponta e técnicas atualizadas para máxima segurança.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h4>Segurança Científica</h4>
+        <p>Todos os procedimentos baseados em evidências e guidelines internacionais.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANTES E DEPOIS -->
+<section id="antes-depois">
+  <div class="ad-inner">
+    <div class="ad-header fade-in">
+      <div>
+        <div class="section-eyebrow">Resultados</div>
+        <h2 class="section-title">Antes &amp; Depois</h2>
+        <p class="section-sub" style="margin-bottom:0">Resultados reais, realizados com segurança e dentro dos protocolos do CFM.</p>
+      </div>
+      <a href="#" class="btn-primary" data-track="ad_agendar" data-modal="antes_depois">Agendar Avaliação</a>
+    </div>
+    <div class="slider-wrap fade-in">
+      <div class="ad-card">
+        <div class="ad-imgs">
+          <div class="ad-img-placeholder ad-antes">ANTES</div>
+          <div class="ad-img-placeholder ad-depois">DEPOIS</div>
+        </div>
+        <div class="ad-label">
+          <div class="ad-proc">Harmonização Facial</div>
+          <div class="ad-desc">Preenchimento labial + lifting de sobrancelha</div>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-imgs">
+          <div class="ad-img-placeholder ad-antes">ANTES</div>
+          <div class="ad-img-placeholder ad-depois">DEPOIS</div>
+        </div>
+        <div class="ad-label">
+          <div class="ad-proc">Rejuvenescimento</div>
+          <div class="ad-desc">Toxina botulínica + bioestimulação</div>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-imgs">
+          <div class="ad-img-placeholder ad-antes">ANTES</div>
+          <div class="ad-img-placeholder ad-depois">DEPOIS</div>
+        </div>
+        <div class="ad-label">
+          <div class="ad-proc">Cirurgia Facial</div>
+          <div class="ad-desc">Correção de assimetria facial</div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-cta-wrap fade-in">
+      <a href="#" class="btn-primary" data-track="ad_cta" data-modal="antes_depois">Agende uma avaliação personalizada</a>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="dep-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Depoimentos</div>
+      <h2 class="section-title">A confiança de quem escolheu excelência.</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="dep-grid fade-in">
+
+      <div class="dep-card">
+        <div class="dep-quote-mark">"</div>
+        <div class="dep-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="dep-quote">O resultado superou todas as minhas expectativas. A <span class="cfg-nome-titulo">Dra. Cintia</span> me ouviu com atenção, explicou cada etapa e o resultado ficou completamente natural. Me sinto eu mesma, só mais bonita.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">MA</div>
+          <div>
+            <div class="dep-name">Mariana A.</div>
+            <div class="dep-proc">Harmonização Facial</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dep-card">
+        <div class="dep-quote-mark">"</div>
+        <div class="dep-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="dep-quote">Profissional extremamente competente e humana. Fiz a cirurgia de siso e fui acompanhada em cada detalhe do pós-operatório. Segurança e cuidado em todo o processo.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">RC</div>
+          <div>
+            <div class="dep-name">Rafael C.</div>
+            <div class="dep-proc">Cirurgia Bucomaxilofacial</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dep-card">
+        <div class="dep-quote-mark">"</div>
+        <div class="dep-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="dep-quote">Finalmente encontrei uma especialista que entende o que significa naturalidade. O meu rosto ficou mais jovial e harmonioso, sem nenhum exagero. Recomendo de olhos fechados.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">PS</div>
+          <div>
+            <div class="dep-name">Patricia S.</div>
+            <div class="dep-proc">Rejuvenescimento Facial</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MÉTODO -->
+<section id="metodo">
+  <div class="met-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Como Funciona</div>
+      <h2 class="section-title">Método de Atendimento</h2>
+      <div class="gold-divider"></div>
+      <div class="met-steps">
+        <div class="met-step">
+          <div class="met-num">1</div>
+          <div class="met-content">
+            <h3>Consulta e Diagnóstico</h3>
+            <p>Avaliação completa do seu histórico, objetivos e características individuais. Escuta ativa e análise facial criteriosa.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="met-num">2</div>
+          <div class="met-content">
+            <h3>Planejamento Individualizado</h3>
+            <p>Elaboração de um protocolo personalizado com técnicas, materiais e cronograma adequados ao seu caso específico.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="met-num">3</div>
+          <div class="met-content">
+            <h3>Procedimento</h3>
+            <p>Execução com precisão técnica, ambiente seguro e materiais de alta qualidade. Conforto e segurança em cada etapa.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="met-num">4</div>
+          <div class="met-content">
+            <h3>Acompanhamento Pós-Tratamento</h3>
+            <p>Suporte contínuo, orientações claras e retornos programados para garantir o resultado ideal e a sua satisfação.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="met-right fade-in">
+      <h3>Sua segurança é a nossa prioridade absoluta.</h3>
+      <p>Todos os procedimentos seguem rigorosos protocolos de segurança, com materiais certificados e técnicas validadas cientificamente.</p>
+      <ul class="met-right-list">
+        <li>Ambiente clínico com total biossegurança</li>
+        <li>Materiais com registro ANVISA</li>
+        <li>Protocolos baseados em evidências científicas</li>
+        <li>Plano de emergência para intercorrências</li>
+        <li>Acompanhamento pós-procedimento humanizado</li>
+        <li>Comunicação direta e transparente em todas as etapas</li>
+      </ul>
+      <a href="#" class="btn-primary">Agendar minha consulta</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEUDO EDUCACIONAL -->
+<section id="conteudo">
+  <div class="cont-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Conteúdo Educacional</div>
+      <h2 class="section-title">Conhecimento que gera confiança.</h2>
+      <p class="section-sub">Informação de qualidade para que você tome decisões conscientes e seguras sobre a sua saúde e estética facial.</p>
+    </div>
+    <div class="cont-grid fade-in">
+
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2C8 2 4 6 4 10c0 5 8 12 8 12s8-7 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Especialidade</div>
+          <h3>O que faz um Cirurgião Bucomaxilofacial?</h3>
+          <p>Entenda o papel do especialista, as diferenças em relação a outras áreas e quando procurar esse profissional.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
+
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Segurança</div>
+          <h3>Harmonização Facial Segura: o que você precisa saber</h3>
+          <p>Como escolher um profissional qualificado, quais perguntas fazer e o que esperar do procedimento.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
+
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 20c4.4 0 8-3.6 8-8S16.4 4 12 4 4 7.6 4 12s3.6 8 8 8z"/><path d="M8 12s1 2 4 2 4-2 4-2"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Cirurgia</div>
+          <h3>Cirurgia do Siso: mitos e verdades</h3>
+          <p>Quando é necessária, como é o pós-operatório e por que adiar pode trazer complicações.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
+
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Anti-aging</div>
+          <h3>Rejuvenescimento Facial: por onde começar?</h3>
+          <p>Guia completo sobre os procedimentos disponíveis, eficácia, indicações e o que é mito.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
+
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Esclarecimento</div>
+          <h3>Mitos e Verdades sobre Procedimentos Estéticos</h3>
+          <p>Desfazendo os principais equívocos sobre toxina, preenchimentos e tratamentos faciais.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
+
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Prevenção</div>
+          <h3>Bruxismo e Estética: a conexão que poucos conhecem</h3>
+          <p>Como o hábito de ranger os dentes afeta o rosto e quais tratamentos podem ajudar.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <div class="cta-final-eyebrow"><span class="cfg-nome-completo">Dra. Cintia Freire</span></div>
+  <h2 class="cta-final-title fade-in">Sua melhor versão começa com uma <em>avaliação especializada.</em></h2>
+  <p class="cta-final-sub fade-in">Receba um plano personalizado desenvolvido por uma especialista que une ciência, técnica e estética. Segurança e naturalidade em cada detalhe.</p>
+  <div class="cta-final-btns fade-in">
+    <a href="#" class="btn-gold">Agendar Consulta</a>
+    <a href="#" class="btn-outline-white">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar no WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="nav-logo"><span class="cfg-nome-titulo">Dra. Cintia</span> <span>Freire</span></span>
+        <p class="footer-desc">Cirurgiã e Traumatologista Bucomaxilofacial formada pela Universidade Federal Fluminense. Especialista em cirurgia facial, harmonização facial e estética avançada.</p>
+        <div class="footer-crm"><span class="cfg-crm">XXXXXX</span> CRO: <span class="cfg-cro">48482</span></div>
+      </div>
+      <div class="footer-col">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#areas">Cirurgia Bucomaxilofacial</a></li>
+          <li><a href="#areas">Harmonização Facial</a></li>
+          <li><a href="#areas">Rejuvenescimento</a></li>
+          <li><a href="#areas">Preenchimentos</a></li>
+          <li><a href="#areas">Toxina Botulínica</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#autoridade">Formação</a></li>
+          <li><a href="#diferenciais">Diferenciais</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#conteudo">Blog</a></li>
+          <li><a href="#cta-final">Agendar Consulta</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#">WhatsApp: <span class="cfg-wa-label">(21) 99999-9999</span></a></li>
+          <li><a href="#">Endereço: <span class="cfg-endereco">Rua Exemplo, 123</span></a></li>
+          <li><a href="#">Ver no Google Maps</a></li>
+        </ul>
+        <div style="margin-top:1.2rem">
+          <h4 style="margin-bottom:0.75rem">Redes Sociais</h4>
+          <div class="footer-social">
+            <a href="#" class="social-btn" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="WhatsApp">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="cfg-ano"></span> <span id="cfg-nome-footer"></span>. Todos os direitos reservados.</p>
+      <div class="footer-legal">
+        <a href="#">Política de Privacidade</a>
+        <a href="#">LGPD</a>
+        <a href="#">Termos de Uso</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL AGENDAMENTO -->
+<div class="modal-overlay" id="modal-lead" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close-btn" aria-label="Fechar">×</button>
+    <div id="form-wrap">
+      <div class="modal-eyebrow">Agendamento</div>
+      <h2 class="modal-title" id="modal-title">Solicitar avaliação<br>personalizada</h2>
+      <div class="form-group">
+        <label for="lead-nome">Nome completo *</label>
+        <input type="text" id="lead-nome" placeholder="Seu nome" required>
+      </div>
+      <div class="form-group">
+        <label for="lead-tel">WhatsApp *</label>
+        <input type="tel" id="lead-tel" placeholder="(21) 99999-9999" required>
+      </div>
+      <div class="form-group">
+        <label for="lead-email">E-mail</label>
+        <input type="email" id="lead-email" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label for="lead-proc">Procedimento de interesse</label>
+        <select id="lead-proc">
+          <option value="">Selecione...</option>
+          <option>Cirurgia Bucomaxilofacial</option>
+          <option>Harmonização Facial</option>
+          <option>Rejuvenescimento Facial</option>
+          <option>Preenchimentos</option>
+          <option>Toxina Botulínica</option>
+          <option>Estética Avançada</option>
+          <option>Ainda não sei</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="lead-msg">Mensagem (opcional)</label>
+        <textarea id="lead-msg" placeholder="Conte um pouco sobre o que busca..."></textarea>
+      </div>
+      <button class="form-submit" id="form-submit-btn">Solicitar Avaliação</button>
+      <p class="form-error-msg" id="form-error">Preencha nome e WhatsApp para continuar.</p>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="form-success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>Solicitação enviada!</h3>
+      <p>Obrigada pelo contato. A equipe da <span class="cfg-nome-titulo">Dra. Cintia</span> entrará em contato pelo WhatsApp em breve.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING WHATSAPP -->
+
+<a href="#" class="floating-wa" aria-label="Falar no WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // ── SUPABASE CONFIG — lido do bloco CFG no topo ──────────────
+  const SUPABASE_URL    = window.CFG.supabaseUrl;
+  const SUPABASE_ANON_KEY = window.CFG.supabaseKey;
+  const CLIENT_ID       = window.CFG.clientId;
+
+  // ── CLIENTE SUPABASE LEVE (fetch direto, sem SDK) ────────────
+  async function sbInsert(table, data) {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) console.warn(`Supabase [${table}] erro ${res.status}`);
+      return res.ok;
+    } catch (e) {
+      console.warn('Supabase insert falhou:', e);
+      return false;
+    }
+  }
+
+  // ── UTMs (lê da URL e persiste em sessionStorage) ─────────────
+  function getUtms() {
+    const params = new URLSearchParams(window.location.search);
+    const keys = ['utm_source', 'utm_medium', 'utm_campaign'];
+    const utms = {};
+    keys.forEach(k => {
+      const v = params.get(k) || sessionStorage.getItem(k) || null;
+      if (v) { sessionStorage.setItem(k, v); utms[k] = v; }
+      else utms[k] = null;
+    });
+    return utms;
+  }
+
+  // ── PAGE VIEW ────────────────────────────────────────────────
+  function trackPageView() {
+    const utms = getUtms();
+    sbInsert('page_views', {
+      client_id:    CLIENT_ID,
+      page:         window.location.pathname || '/',
+      utm_source:   utms.utm_source,
+      utm_medium:   utms.utm_medium,
+      utm_campaign: utms.utm_campaign
+    });
+  }
+
+  // ── CLIQUE EM LINK/BOTÃO → link_clicks ───────────────────────
+  // Colunas: id, client_id, link_type, link_label,
+  //          utm_source, utm_medium, utm_campaign, created_at
+  function trackClick(linkType, linkLabel) {
+    const utms = getUtms();
+    sbInsert('link_clicks', {
+      client_id:    CLIENT_ID,
+      link_type:    linkType,
+      link_label:   linkLabel,
+      utm_source:   utms.utm_source,
+      utm_medium:   utms.utm_medium,
+      utm_campaign: utms.utm_campaign
+    });
+  }
+
+  // ── BIND DE TODOS OS BOTÕES RASTREADOS ───────────────────────
+  function bindButtons() {
+    // [seletor, link_type, link_label]
+    const map = [
+      ['[data-track="hero_agendar"]',       'cta_agendar',   'Agendar Consulta · Hero'],
+      ['[data-track="hero_whatsapp"]',      'cta_whatsapp',  'WhatsApp · Hero'],
+      ['[data-track="nav_agendar"]',        'cta_agendar',   'Agendar Consulta · Nav'],
+      ['[data-track="dif_agendar"]',        'cta_agendar',   'Agendar Avaliação · Diferenciais'],
+      ['[data-track="ad_agendar"]',         'cta_agendar',   'Agendar Avaliação · Antes-Depois'],
+      ['[data-track="ad_cta"]',             'cta_agendar',   'Avaliação Personalizada · Antes-Depois'],
+      ['[data-track="met_agendar"]',        'cta_agendar',   'Agendar Consulta · Método'],
+      ['[data-track="cta_final_agendar"]',  'cta_agendar',   'Agendar Consulta · CTA Final'],
+      ['[data-track="cta_final_whatsapp"]', 'cta_whatsapp',  'WhatsApp · CTA Final'],
+      ['[data-track="float_whatsapp"]',     'cta_whatsapp',  'WhatsApp Flutuante'],
+    ];
+    map.forEach(([sel, type, label]) => {
+      document.querySelectorAll(sel).forEach(el => {
+        el.addEventListener('click', () => trackClick(type, label));
+      });
+    });
+    // Cards de área — data-track-area="harmonizacao" etc.
+    document.querySelectorAll('[data-track-area]').forEach(el => {
+      el.addEventListener('click', () => {
+        const area = el.getAttribute('data-track-area');
+        trackClick('cta_area', `Saiba mais · ${area}`);
+      });
+    });
+  }
+
+  // ── MODAL DE AGENDAMENTO ─────────────────────────────────────
+  const modal   = document.getElementById('modal-lead');
+  const closeBtn = document.getElementById('modal-close-btn');
+  let modalOrigin = 'desconhecido';
+
+  function openModal(origem) {
+    modalOrigin = origem;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lead-nome').focus();
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  document.querySelectorAll('[data-modal]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const origem = el.getAttribute('data-modal');
+      openModal(origem);
+      trackClick('modal_open', `Abrir modal · ${origem}`);
+    });
+  });
+
+  // ── SUBMIT DO FORMULÁRIO → leads ─────────────────────────────
+  // Colunas: id, client_id, name, phone,
+  //          utm_source, utm_medium, utm_campaign, created_at
+  document.getElementById('form-submit-btn').addEventListener('click', async () => {
+    const name   = document.getElementById('lead-nome').value.trim();
+    const phone  = document.getElementById('lead-tel').value.trim();
+    const proc   = document.getElementById('lead-proc').value;
+    const errEl  = document.getElementById('form-error');
+
+    if (!name || !phone) {
+      errEl.textContent = 'Preencha nome e WhatsApp para continuar.';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    const btn = document.getElementById('form-submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const utms = getUtms();
+    const ok = await sbInsert('leads', {
+      client_id:    CLIENT_ID,
+      name,
+      phone,
+      utm_source:   utms.utm_source,
+      utm_medium:   utms.utm_medium,
+      utm_campaign: utms.utm_campaign
+    });
+
+    btn.disabled = false;
+    btn.textContent = 'Solicitar Avaliação';
+
+    if (ok) {
+      // Também registra o clique de conversão
+      trackClick('lead_convertido', `Lead · ${proc || 'sem procedimento'}`);
+
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+
+      // Abre WhatsApp após 2s com dados pré-preenchidos
+      setTimeout(() => {
+        const texto = encodeURIComponent(
+          `Olá, <span class="cfg-nome-titulo">Dra. Cintia</span>! Me chamo ${name} e gostaria de agendar uma avaliação${proc ? ` para ${proc}` : ''}.`
+        );
+        window.open(`#?text=${texto}`, '_blank');
+        closeModal();
+        // Reset
+        document.getElementById('form-wrap').style.display = 'block';
+        document.getElementById('form-success').style.display = 'none';
+        ['lead-nome','lead-tel','lead-email','lead-msg'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.value = '';
+        });
+        document.getElementById('lead-proc').value = '';
+      }, 2000);
+    } else {
+      errEl.textContent = 'Erro ao enviar. Tente pelo WhatsApp diretamente.';
+      errEl.style.display = 'block';
+    }
+  });
+
+  // ── NAV SCROLL ───────────────────────────────────────────────
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ── FADE IN (IntersectionObserver) ───────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // APLICAÇÃO AUTOMÁTICA DO BLOCO CFG
+  // Não mexa aqui — edite apenas o bloco window.CFG no topo
+  // ══════════════════════════════════════════════════════════════
+  (function applyCFG() {
+    const C = window.CFG;
+    const nomeCompleto = `${C.titulo} ${C.nomePrimeiro} ${C.nomeSobrenome}`;
+    const nomeTitulo   = `${C.titulo} ${C.nomePrimeiro}`;
+    const nomeSemTit   = `${C.nomePrimeiro} ${C.nomeSobrenome}`;
+    const waHref       = `https://wa.me/${C.whatsapp}`;
+    const waMsgBase    = encodeURIComponent(`Olá, ${nomeTitulo}! Gostaria de agendar uma avaliação.`);
+
+    // Textos com nome
+    document.querySelectorAll('.cfg-nome-completo').forEach(el => el.textContent = nomeCompleto);
+    document.querySelectorAll('.cfg-nome-titulo').forEach(el => el.textContent = nomeTitulo);
+    document.querySelectorAll('.cfg-nome-semtitulo').forEach(el => el.textContent = nomeSemTit);
+
+    // Nav logo
+    const navLogo = document.getElementById('nav-logo-link');
+    if (navLogo) navLogo.innerHTML = `${C.titulo} ${C.nomePrimeiro} <span>${C.nomeSobrenome}</span>`;
+    const footerLogo = document.getElementById('footer-logo');
+    if (footerLogo) footerLogo.innerHTML = `${C.titulo} ${C.nomePrimeiro} <span>${C.nomeSobrenome}</span>`;
+
+    // Contato
+    document.querySelectorAll('.cfg-wa-label').forEach(el => el.textContent = C.whatsappLabel);
+    document.querySelectorAll('.cfg-endereco').forEach(el => el.textContent = C.endereco);
+    document.querySelectorAll('.cfg-crm').forEach(el => el.textContent = C.crm);
+    document.querySelectorAll('.cfg-cro').forEach(el => el.textContent = C.cro);
+
+    // Footer ano e nome
+    const anoEl = document.getElementById('cfg-ano');
+    if (anoEl) anoEl.textContent = new Date().getFullYear();
+    const nomeFooter = document.getElementById('cfg-nome-footer');
+    if (nomeFooter) nomeFooter.textContent = nomeCompleto;
+
+    // WhatsApp — todos os hrefs que eram # e têm data-track whatsapp ou são btn-whatsapp
+    document.querySelectorAll('a[data-track="hero_whatsapp"], a[data-track="cta_final_whatsapp"], a[data-track="float_whatsapp"], .btn-whatsapp, .floating-wa').forEach(el => {
+      el.href = waHref;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+    // Links de WhatsApp no rodapé (sem data-track)
+    document.querySelectorAll('a.cfg-wa-label, footer a[href="#"]').forEach(el => {
+      if (el.textContent.includes(C.whatsappLabel) || el.querySelector('.cfg-wa-label')) {
+        el.href = waHref;
+      }
+    });
+    // Google Maps
+    document.querySelectorAll('a[href="#"]').forEach(el => {
+      if (el.textContent.trim().includes('Google Maps')) el.href = C.googleMaps;
+    });
+    // Instagram
+    document.querySelectorAll('a[aria-label="Instagram"]').forEach(el => el.href = C.instagram);
+
+    // Logo do nav
+    const navLogoImg = document.getElementById('nav-logo-img');
+    if (navLogoImg && C.logoNav) navLogoImg.src = C.logoNav;
+
+    // Badge de anos no hero
+    const badge = document.querySelector('.hero-badge-num');
+    if (badge) badge.textContent = C.anosExp;
+
+    // Meta tags
+    document.title = C.metaTitle;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.content = C.metaDesc;
+
+    // Foto do hero
+    const placeholder = document.getElementById('hero-placeholder');
+    if (placeholder && C.fotoHero) {
+      const img = document.createElement('img');
+      img.src = C.fotoHero;
+      img.alt = nomeCompleto;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:4px 4px 0 0;display:block;';
+      placeholder.replaceWith(img);
+    }
+
+    // Depoimentos — renderizar do CFG
+    const depGrid = document.querySelector('.dep-grid');
+    if (depGrid && C.depoimentos) {
+      depGrid.innerHTML = C.depoimentos.map(d => `
+        <div class="dep-card">
+          <div class="dep-quote-mark">"</div>
+          <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="dep-quote">${d.texto}</p>
+          <div class="dep-author">
+            <div class="dep-avatar">${d.iniciais}</div>
+            <div>
+              <div class="dep-name">${d.nome}</div>
+              <div class="dep-proc">${d.proc}</div>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    // Mensagem de sucesso do form com nome da dra
+    const successMsg = document.querySelector('.form-success p');
+    if (successMsg) successMsg.textContent = `Obrigada pelo contato. A equipe da ${nomeTitulo} entrará em contato pelo WhatsApp em breve.`;
+
+    // CTA final eyebrow
+    const ctaEyebrow = document.querySelector('.cta-final-eyebrow');
+    if (ctaEyebrow) ctaEyebrow.textContent = nomeCompleto;
+
+  })();
+
+  // ── INIT ─────────────────────────────────────────────────────
+  trackPageView();
+  bindButtons();
+</script>
+
+
+</body>
+</html>
