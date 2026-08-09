@@ -523,22 +523,21 @@
     overflow: hidden;
     border: 1px solid var(--champagne-light);
   }
-  .ad-imgs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  .ad-img-wrap {
+    width: 100%;
+    overflow: hidden;
   }
-  .ad-img-placeholder {
-    aspect-ratio: 3/4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+  .ad-img-wrap img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
   }
-  .ad-antes { background: linear-gradient(160deg, #D9CCBF, #C0AD99); color: rgba(46,46,46,0.5); }
-  .ad-depois { background: linear-gradient(160deg, #E8D9C8, #D5BFA4); color: rgba(46,46,46,0.5); }
+  .ad-img-wrap.vertical img {
+    height: 420px;
+    object-position: center center;
+  }
   .ad-label {
     padding: 1.2rem 1.5rem;
     background: var(--off-white);
@@ -1225,7 +1224,7 @@ window.CFG = {
   whatsapp:       "5521997911837",    // só números, com DDI (55) + DDD + número
   whatsappLabel:  "(21) 99791-1837",  // como aparece no rodapé
   instagram:      "https://instagram.com/dracintiafreire",
-  endereco:       "Rua Exemplo, 123 – Rio de Janeiro, RJ",
+  endereco:       "Rua Augusto de Vasconcelos, 885",
   googleMaps:     "#",                // link do Google Maps
 
   // ── FOTO DO HERO ───────────────────────────────────────────
@@ -1443,8 +1442,8 @@ window.CFG = {
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
         </div>
         <div class="area-benefit">Volume &amp; Contorno</div>
-        <h3>Preenchimentos</h3>
-        <p>Restauração de volume, definição de contornos e correção de assimetrias com materiais de alta biocompatibilidade.</p>
+        <h3>Preenchimentos estratégicos</h3>
+        <p>Definição de contorno com volume adequado e correção de assimetrias onde necessário com material biocompatível.</p>
         <a href="#" class="area-cta">Saiba mais →</a>
       </div>
 
@@ -1541,33 +1540,30 @@ window.CFG = {
     </div>
     <div class="slider-wrap fade-in">
       <div class="ad-card">
-        <div class="ad-imgs">
-          <div class="ad-img-placeholder ad-antes">ANTES</div>
-          <div class="ad-img-placeholder ad-depois">DEPOIS</div>
+        <div class="ad-img-wrap">
+          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/boca.jpeg" alt="Harmonização Facial">
         </div>
         <div class="ad-label">
           <div class="ad-proc">Harmonização Facial</div>
-          <div class="ad-desc">Preenchimento labial + lifting de sobrancelha</div>
+          <div class="ad-desc">Preenchimento labial + definição de contorno</div>
         </div>
       </div>
       <div class="ad-card">
-        <div class="ad-imgs">
-          <div class="ad-img-placeholder ad-antes">ANTES</div>
-          <div class="ad-img-placeholder ad-depois">DEPOIS</div>
+        <div class="ad-img-wrap vertical">
+          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/papada.jpeg" alt="Papada">
         </div>
         <div class="ad-label">
-          <div class="ad-proc">Rejuvenescimento</div>
-          <div class="ad-desc">Toxina botulínica + bioestimulação</div>
+          <div class="ad-proc">Papada</div>
+          <div class="ad-desc">Redução e definição do contorno cervical</div>
         </div>
       </div>
       <div class="ad-card">
-        <div class="ad-imgs">
-          <div class="ad-img-placeholder ad-antes">ANTES</div>
-          <div class="ad-img-placeholder ad-depois">DEPOIS</div>
+        <div class="ad-img-wrap">
+          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/Rejuvenescimento.jpeg" alt="Rejuvenescimento">
         </div>
         <div class="ad-label">
-          <div class="ad-proc">Cirurgia Facial</div>
-          <div class="ad-desc">Correção de assimetria facial</div>
+          <div class="ad-proc">Rejuvenescimento Facial</div>
+          <div class="ad-desc">Protocolo integrado de bioestimulação</div>
         </div>
       </div>
     </div>
