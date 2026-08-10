@@ -1,1609 +1,2218 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Caneca paramétrica · Touché3D</title>
-
-<script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
-</script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><span class="cfg-nome-completo">Dra. Cintia Freire</span> | Cirurgiã Bucomaxilofacial & Estética Facial</title>
+<meta name="description" content="<span class="cfg-nome-completo">Dra. Cintia Freire</span>, Cirurgiã Bucomaxilofacial formada pela UFF. Especialista em harmonização facial, cirurgia facial e estética avançada com resultados naturais e seguros.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --fundo:#0A0F0D; --painel:#101815; --campo:#0C1310;
-    --linha:#1E2C26; --linha-forte:#2C4038;
-    --texto:#D6E2DC; --apagado:#6F847B;
-    --verde:#10B981; --verde-fraco:#0B6B4E; --ambar:#D9A441; --vermelho:#E0644E;
-    --mono: ui-monospace, "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
-    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --off-white: #F8F6F3;
+    --champagne: #D8C7B0;
+    --champagne-light: #EAE0D4;
+    --grafite: #2E2E2E;
+    --grafite-soft: #4A4A4A;
+    --gold: #B89A6A;
+    --gold-light: #CDB58A;
+    --gold-pale: #F0E8DA;
+    --white: #FFFFFF;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0}
-  body{background:var(--fundo); color:var(--texto); font-family:var(--sans);
-       display:grid; grid-template-rows:auto 1fr}
 
-  header{display:flex; align-items:baseline; gap:14px;
-         padding:14px 20px; border-bottom:1px solid var(--linha)}
-  header h1{margin:0; font-size:14px; font-weight:600; letter-spacing:.14em; text-transform:uppercase}
-  header .sub{font-family:var(--mono); font-size:11px; color:var(--apagado)}
-  header .estado{margin-left:auto; font-family:var(--mono); font-size:11px;
-                 color:var(--apagado); display:flex; align-items:center; gap:7px}
-  header .estado::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--apagado)}
-  body[data-estado="ocupado"] header .estado::before{background:var(--ambar)}
-  body[data-estado="pronto"]  header .estado::before{background:var(--verde)}
-  body[data-estado="erro"]    header .estado::before{background:var(--vermelho)}
+  html { scroll-behavior: smooth; }
 
-  main{display:grid; grid-template-columns:326px 1fr; min-height:0}
-
-  aside{border-right:1px solid var(--linha); overflow-y:auto; padding:4px 0 90px; background:var(--painel)}
-  fieldset{border:0; margin:0; padding:16px 18px; border-bottom:1px solid var(--linha)}
-  legend{padding:0; font-family:var(--mono); font-size:10px; letter-spacing:.18em;
-         text-transform:uppercase; color:var(--verde)}
-  .campo{margin-top:14px}
-  .campo .topo{display:flex; align-items:baseline; gap:8px; margin-bottom:6px}
-  .campo label{font-size:12.5px}
-  .campo .valor{margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--apagado)}
-  .campo.alerta .valor{color:var(--ambar)}
-  .campo.invalido .valor{color:var(--vermelho)}
-
-  input[type=range]{width:100%; accent-color:var(--verde); background:transparent}
-  input[type=file]{width:100%; font-family:var(--mono); font-size:11px; color:var(--apagado)}
-  input[type=file]::file-selector-button{
-    padding:6px 11px; margin-right:9px; border-radius:3px; cursor:pointer;
-    border:1px solid var(--linha-forte); background:var(--painel); color:var(--texto);
-    font-family:var(--sans); font-size:11.5px}
-  input[type=file]::file-selector-button:hover{border-color:var(--verde)}
-  input[type=text], input[type=number], select{
-    width:100%; padding:7px 9px; background:var(--campo); color:var(--texto);
-    border:1px solid var(--linha-forte); border-radius:3px;
-    font-family:var(--mono); font-size:13px}
-  input:focus, select:focus, button:focus-visible{outline:2px solid var(--verde); outline-offset:2px}
-  .interruptor{display:flex; align-items:center; gap:9px; cursor:pointer; font-size:12.5px}
-  .interruptor input{accent-color:var(--verde); width:15px; height:15px}
-
-  .predefinidos{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px}
-  .predefinidos button{padding:6px 11px; font-size:11.5px}
-  .pintura{margin-top:10px; font-family:var(--mono); font-size:11.5px; line-height:1.9}
-  .pintura div{display:flex; gap:6px; color:var(--apagado)}
-  .pintura b{color:var(--verde); font-weight:500; min-width:38px; text-align:right}
-  .pintura span{margin-left:8px; color:var(--texto); min-width:66px}
-  .pintura i{font-style:normal; color:var(--apagado)}
-  .predefinidos button.meu{border-color:var(--verde-fraco); padding-right:7px}
-  .predefinidos .apagar{margin-left:8px; color:var(--apagado); font-size:14px; line-height:1}
-  .predefinidos .apagar:hover{color:var(--vermelho)}
-
-  section.palco{position:relative; min-width:0;
-    background:radial-gradient(120% 90% at 50% 0%, #0E1714 0%, var(--fundo) 70%)}
-  canvas{display:block; width:100%; height:100%; cursor:grab}
-  canvas:active{cursor:grabbing}
-
-  .leitura{position:absolute; left:22px; bottom:22px; pointer-events:none;
-           font-family:var(--mono); font-size:11px; line-height:1.9; color:var(--apagado)}
-  .leitura b{color:var(--texto); font-weight:500}
-  .leitura span{color:var(--verde-fraco)}
-  .leitura .destaque b{color:var(--verde)}
-
-  .diagnostico{position:absolute; left:22px; right:22px; top:22px;
-    display:flex; flex-direction:column; gap:8px; max-height:46%; overflow:auto}
-  .diagnostico div{padding:9px 12px; border-radius:4px; white-space:pre-wrap;
-    font-family:var(--mono); font-size:11.5px; line-height:1.55}
-  .diagnostico .e{border:1px solid var(--vermelho); background:#1A0F0D; color:#F3C4BA}
-  .diagnostico .a{border:1px solid #4A3A15; background:#171208; color:#E6CF9A}
-
-  .acoes{position:absolute; right:22px; bottom:22px; display:flex; gap:10px}
-  button{padding:10px 16px; border-radius:3px; cursor:pointer;
-    font-family:var(--sans); font-size:12.5px; font-weight:500;
-    border:1px solid var(--linha-forte); background:var(--painel); color:var(--texto)}
-  button:hover{border-color:var(--verde)}
-  button.principal{background:var(--verde); border-color:var(--verde); color:#04120C; font-weight:600}
-  button:disabled{opacity:.4; cursor:not-allowed; border-color:var(--linha-forte);
-                  background:var(--painel); color:var(--apagado)}
-
-  @media (max-width:820px){
-    main{grid-template-columns:1fr; grid-template-rows:minmax(300px,45vh) 1fr}
-    aside{border-right:0; border-bottom:1px solid var(--linha); order:2; padding-bottom:20px}
-    section.palco{order:1}
-    .acoes{position:static; padding:14px 18px; border-top:1px solid var(--linha)}
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--off-white);
+    color: var(--grafite);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
-  @media (prefers-reduced-motion:reduce){*{transition:none !important}}
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(248,246,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,154,106,0.15);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(46,46,46,0.08); }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--grafite);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-logo-img { display: flex; align-items: center; text-decoration: none; }
+  .nav-logo-svg { height: 180px; width: auto; display: block; filter: brightness(0) saturate(100%); }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grafite-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--grafite);
+    color: var(--white) !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 2px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--white) !important; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    padding-top: 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    background: linear-gradient(135deg, var(--off-white) 60%, var(--champagne-light) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(180deg, var(--champagne-light) 0%, var(--champagne) 100%);
+    z-index: 0;
+  }
+  .hero-content {
+    padding: 6rem 5% 6rem 8%;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--grafite);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--grafite-soft);
+    max-width: 460px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .btn-primary {
+    background: var(--grafite);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+  .btn-whatsapp {
+    background: transparent;
+    color: var(--grafite);
+    padding: 0.9rem 2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid var(--champagne);
+    border-radius: 2px;
+    transition: border-color 0.25s, color 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-whatsapp:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-trust {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--grafite-soft);
+  }
+  .trust-item::before {
+    content: '✓';
+    width: 18px;
+    height: 18px;
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1;
+    padding-top: 1px;
+  }
+  .hero-image {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 3rem 8% 0 4%;
+  }
+  .hero-photo-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+  }
+  .hero-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #E8D9C8 0%, #C9B090 100%);
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(46,46,46,0.4);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-align: center;
+    gap: 1rem;
+  }
+  .hero-photo-placeholder svg { opacity: 0.35; }
+  .hero-badge {
+    position: absolute;
+    bottom: 2rem;
+    left: -1.5rem;
+    background: var(--white);
+    border: 1px solid var(--champagne);
+    padding: 1rem 1.25rem;
+    border-radius: 4px;
+    box-shadow: 0 8px 32px rgba(46,46,46,0.1);
+  }
+  .hero-badge-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .hero-badge-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--grafite-soft);
+    letter-spacing: 0.05em;
+    margin-top: 0.2rem;
+  }
+
+  /* ── SECTIONS GENERIC ── */
+  section { padding: 6rem 5%; }
+
+  .section-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--grafite);
+    max-width: 600px;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--grafite-soft);
+    max-width: 560px;
+    margin-bottom: 3rem;
+  }
+  .gold-divider {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 3rem;
+  }
+
+  /* ── AUTORIDADE ── */
+  #autoridade {
+    background: var(--white);
+    max-width: 100%;
+  }
+  .autoridade-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .autoridade-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--champagne-light);
+    border: 1.5px solid var(--champagne-light);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .aut-card {
+    background: var(--white);
+    padding: 2.2rem 2rem;
+    transition: background 0.25s;
+  }
+  .aut-card:hover { background: var(--gold-pale); }
+  .aut-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 1.2rem;
+    color: var(--gold);
+  }
+  .aut-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.6rem;
+  }
+  .aut-card p {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--grafite-soft);
+  }
+  .aut-stat {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── AREAS ── */
+  #areas { background: var(--off-white); }
+  .areas-inner { max-width: 1200px; margin: 0 auto; }
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .area-card {
+    background: var(--white);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 2.2rem 2rem;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .area-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 0.35s;
+  }
+  .area-card:hover {
+    border-color: var(--champagne);
+    box-shadow: 0 8px 32px rgba(46,46,46,0.07);
+    transform: translateY(-3px);
+  }
+  .area-card:hover::after { width: 100%; }
+  .area-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--gold-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.4rem;
+    color: var(--gold);
+  }
+  .area-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.6rem;
+  }
+  .area-benefit {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .area-card p {
+    font-size: 0.83rem;
+    line-height: 1.7;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    margin-bottom: 1.4rem;
+  }
+  .area-cta {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .area-cta:hover { color: var(--grafite); }
+
+  /* ── DIFERENCIAIS ── */
+  #diferenciais {
+    background: var(--grafite);
+    color: var(--white);
+  }
+  .dif-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .dif-left .section-eyebrow { color: var(--champagne); }
+  .dif-left .section-eyebrow::before { background: var(--champagne); }
+  .dif-left .section-title { color: var(--white); max-width: 420px; }
+  .dif-left .section-sub { color: rgba(255,255,255,0.6); }
+  .dif-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .dif-item {
+    padding: 1.5rem;
+    border: 1px solid rgba(216,199,176,0.15);
+    border-radius: 4px;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .dif-item:hover {
+    border-color: var(--gold);
+    background: rgba(184,154,106,0.07);
+  }
+  .dif-item-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(184,154,106,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--gold);
+  }
+  .dif-item h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .dif-item p {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+  }
+
+  /* ── ANTES/DEPOIS ── */
+  #antes-depois { background: var(--white); }
+  .ad-inner { max-width: 1200px; margin: 0 auto; }
+  .ad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .slider-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .ad-card {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--champagne-light);
+  }
+  .ad-img-wrap {
+    width: 100%;
+    background: var(--grafite);
+  }
+  .ad-img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .ad-label {
+    padding: 1.2rem 1.5rem;
+    background: var(--off-white);
+  }
+  .ad-proc {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.2rem;
+  }
+  .ad-desc {
+    font-size: 0.73rem;
+    color: var(--grafite-soft);
+    font-weight: 300;
+  }
+  .ad-cta-wrap { text-align: center; }
+
+  /* ── DEPOIMENTOS ── */
+  #depoimentos { background: var(--off-white); }
+  .dep-inner { max-width: 1200px; margin: 0 auto; }
+  .dep-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .dep-card {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 2rem;
+    border: 1px solid var(--champagne-light);
+    position: relative;
+  }
+  .dep-stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 1.2rem;
+  }
+  .dep-stars span { color: var(--gold); font-size: 0.9rem; }
+  .dep-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--grafite);
+    margin-bottom: 1.5rem;
+  }
+  .dep-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .dep-avatar {
+    width: 42px;
+    height: 42px;
+    background: var(--champagne-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .dep-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--grafite);
+  }
+  .dep-proc {
+    font-size: 0.73rem;
+    color: var(--grafite-soft);
+    font-weight: 300;
+  }
+  .dep-quote-mark {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: var(--gold-pale);
+    line-height: 1;
+  }
+
+  /* ── MÉTODO ── */
+  #metodo {
+    background: var(--white);
+  }
+  .met-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .met-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .met-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.5rem;
+    position: relative;
+    padding-bottom: 2.5rem;
+  }
+  .met-step:last-child { padding-bottom: 0; }
+  .met-step::before {
+    content: '';
+    position: absolute;
+    left: 29px;
+    top: 60px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--gold), var(--champagne-light));
+  }
+  .met-step:last-child::before { display: none; }
+  .met-num {
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--gold);
+    background: var(--white);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .met-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.4rem;
+    padding-top: 0.9rem;
+  }
+  .met-content p {
+    font-size: 0.83rem;
+    line-height: 1.7;
+    color: var(--grafite-soft);
+    font-weight: 300;
+  }
+  .met-right {
+    background: var(--gold-pale);
+    border-radius: 4px;
+    padding: 3rem;
+    border: 1px solid var(--champagne);
+  }
+  .met-right h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.8rem;
+  }
+  .met-right p {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .met-right-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2rem;
+  }
+  .met-right-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.83rem;
+    color: var(--grafite);
+    font-weight: 400;
+  }
+  .met-right-list li::before {
+    content: '—';
+    color: var(--gold);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTEUDO ── */
+  #conteudo { background: var(--off-white); }
+  .cont-inner { max-width: 1200px; margin: 0 auto; }
+  .cont-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .cont-card {
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--champagne-light);
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .cont-card:hover {
+    box-shadow: 0 8px 32px rgba(46,46,46,0.08);
+    transform: translateY(-3px);
+  }
+  .cont-img {
+    height: 160px;
+    background: linear-gradient(135deg, var(--champagne-light) 0%, var(--champagne) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+  .cont-body { padding: 1.5rem; }
+  .cont-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .cont-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.5rem;
+    line-height: 1.35;
+  }
+  .cont-card p {
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .cont-link {
+    font-size: 0.73rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* ── CTA FINAL ── */
+  #cta-final {
+    background: linear-gradient(135deg, var(--grafite) 0%, #1A1A1A 100%);
+    text-align: center;
+    padding: 7rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+  #cta-final::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(184,154,106,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-final-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .cta-final-eyebrow::before, .cta-final-eyebrow::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--champagne);
+  }
+  .cta-final-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    max-width: 680px;
+    margin: 0 auto 1.5rem;
+  }
+  .cta-final-title em { font-style: italic; color: var(--gold); }
+  .cta-final-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+  }
+  .cta-final-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--white);
+    padding: 1rem 2.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline-white {
+    background: transparent;
+    color: var(--white);
+    padding: 1rem 2.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 2px;
+    transition: border-color 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-outline-white:hover { border-color: var(--champagne); color: var(--champagne); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1A1A1A;
+    padding: 4rem 5% 2rem;
+    border-top: 1px solid rgba(184,154,106,0.15);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-brand .nav-logo {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .footer-desc {
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .footer-crm {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .footer-col h4 {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--champagne);
+    margin-bottom: 1.2rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li {
+    margin-bottom: 0.65rem;
+  }
+  .footer-col a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-social {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .social-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .social-btn:hover { background: var(--gold); color: var(--white); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+    font-weight: 300;
+  }
+  .footer-legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .footer-legal a {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-legal a:hover { color: var(--gold); }
+
+  /* ── MODAL LEAD ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(46,46,46,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    animation: modal-in 0.3s ease;
+  }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--grafite-soft);
+    line-height: 1;
+  }
+  .modal-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 1.6rem;
+    line-height: 1.3;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--grafite-soft);
+    margin-bottom: 0.4rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--champagne-light);
+    border-radius: 2px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: var(--grafite);
+    background: var(--off-white);
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--grafite);
+    color: var(--white);
+    border: none;
+    border-radius: 2px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--gold); }
+  .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .form-success-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--gold-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: var(--gold);
+  }
+  .form-success h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.5rem;
+  }
+  .form-success p {
+    font-size: 0.85rem;
+    color: var(--grafite-soft);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .form-error-msg {
+    font-size: 0.78rem;
+    color: #c0392b;
+    margin-top: 0.75rem;
+    display: none;
+  }
+
+  /* ── FLOATING WHATSAPP ── */
+  .floating-wa {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 90;
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    text-decoration: none;
+    animation: pulse-wa 2.5s infinite;
+    transition: transform 0.2s;
+  }
+  .floating-wa:hover { transform: scale(1.1); }
+  @keyframes pulse-wa {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 4px 36px rgba(37,211,102,0.7); }
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; min-height: auto; padding-bottom: 0; }
+    #hero::before { display: none; }
+    .hero-content { padding: 3rem 5%; }
+    .hero-image { padding: 2rem 5% 0; }
+    .hero-photo-placeholder { aspect-ratio: 4/3; }
+    .autoridade-grid,
+    .areas-grid,
+    .dep-grid,
+    .cont-grid { grid-template-columns: 1fr; }
+    .dif-inner,
+    .met-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .dif-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .slider-wrap { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 4rem 5%; }
+    .hero-trust { grid-template-columns: 1fr; }
+    .dif-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .ad-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── Hamburger (mobile, simple) ── */
+  .nav-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    color: var(--grafite);
+  }
+  @media (max-width: 900px) {
+    .nav-menu-btn { display: flex; }
+  }
 </style>
 </head>
+<body>
 
-<body data-estado="carregando">
+<!-- ============================================================
+  BLOCO DE CONFIGURAÇÃO — edite apenas aqui
+  Todas as informações abaixo são aplicadas automaticamente
+  na página inteira pelo script no final do arquivo.
+============================================================ -->
+<script id="cfg">
+window.CFG = {
 
-<header>
-  <h1>Caneca paramétrica</h1>
-  <span class="sub">Touché3D</span>
-  <span class="estado" id="estado">carregando OpenSCAD…</span>
-</header>
+  // ── IDENTIDADE ─────────────────────────────────────────────
+  nomePrimeiro:   "Cintia",           // primeiro nome (usado em títulos e textos)
+  nomeSobrenome:  "Freire",           // sobrenome
+  titulo:         "Dra.",             // prefixo
+  especialidade:  "Cirurgiã e Traumatologista Bucomaxilofacial",
+  formacao:       "Universidade Federal Fluminense (UFF)",
+  siglaFormacao:  "UFF",
+  anosExp:        "10+",              // aparece no badge do hero
+  cro:            "48482",           // número CRO
 
-<main>
-  <aside id="painel"></aside>
+  // ── CONTATO ────────────────────────────────────────────────
+  whatsapp:       "5521997911837",    // só números, com DDI (55) + DDD + número
+  whatsappLabel:  "(21) 99791-1837",  // como aparece no rodapé
+  instagram:      "https://instagram.com/dracintiafreire",
+  endereco:       "Rua Augusto de Vasconcelos, 885",
+  googleMaps:     "#",                // link do Google Maps
 
-  <section class="palco">
-    <canvas id="tela"></canvas>
-    <div class="leitura" id="leitura"></div>
-    <div class="diagnostico" id="diagnostico"></div>
-    <div class="acoes">
-      <button id="btn-scad">Baixar .scad</button>
-      <button id="btn-stl" class="principal">Exportar STL</button>
+  // ── FOTO DO HERO ───────────────────────────────────────────
+  // Cole o caminho da foto após fazer upload (ex: "./foto-dra-cintia.jpg")
+  // Enquanto não tiver foto, o placeholder elegante continua aparecendo.
+  fotoHero:       "https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/Cintia.jpeg",
+  logoNav:        "https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/logocintia.svg",
+
+  // ── SEO / META ─────────────────────────────────────────────
+  metaTitle:      "Dra. Cintia Freire | Cirurgiã Bucomaxilofacial & Estética Facial",
+  metaDesc:       "Dra. Cintia Freire, Cirurgiã Bucomaxilofacial formada pela UFF. Especialista em harmonização facial, cirurgia facial e estética avançada com resultados naturais e seguros.",
+
+  // ── SUPABASE ───────────────────────────────────────────────
+  supabaseUrl:    "https://woafnemdudmfkhagshte.supabase.co",
+  supabaseKey:    "SUA_ANON_KEY_AQUI",  // Settings > API > anon public
+  clientId:       "dra-cintia-freire",
+
+  // ── DEPOIMENTOS ────────────────────────────────────────────
+  // Edite os 3 depoimentos ou adicione mais (máx recomendado: 6)
+  depoimentos: [
+    {
+      iniciais:   "MA",
+      nome:       "Mariana A.",
+      proc:       "Harmonização Facial",
+      texto:      "O resultado superou todas as minhas expectativas. A Dra. Cintia me ouviu com atenção, explicou cada etapa e o resultado ficou completamente natural. Me sinto eu mesma, só mais bonita."
+    },
+    {
+      iniciais:   "RC",
+      nome:       "Rafael C.",
+      proc:       "Cirurgia Bucomaxilofacial",
+      texto:      "Profissional extremamente competente e humana. Fiz a cirurgia de siso e fui acompanhada em cada detalhe do pós-operatório. Segurança e cuidado em todo o processo."
+    },
+    {
+      iniciais:   "PS",
+      nome:       "Patricia S.",
+      proc:       "Rejuvenescimento Facial",
+      texto:      "Finalmente encontrei uma especialista que entende o que significa naturalidade. O meu rosto ficou mais jovial e harmonioso, sem nenhum exagero. Recomendo de olhos fechados."
+    }
+  ]
+};
+</script>
+<!-- ============================================================ -->
+
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo-img"><img src="" id="nav-logo-img" alt="Dra. Cintia Freire" class="nav-logo-svg"></a>
+  <ul class="nav-links">
+    <li><a href="#autoridade">Formação</a></li>
+    <li><a href="#areas">Serviços</a></li>
+    <li><a href="#diferenciais">Diferenciais</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#" class="nav-cta" data-track="nav_agendar" data-modal="nav">Agendar Consulta</a></li>
+  </ul>
+  <button class="nav-menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="2" y="5" width="18" height="1.5" fill="currentColor"/>
+      <rect x="2" y="10.25" width="18" height="1.5" fill="currentColor"/>
+      <rect x="2" y="15.5" width="18" height="1.5" fill="currentColor"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Cirurgiã Bucomaxilofacial</div>
+    <h1 class="hero-title">
+      Autoridade em Cirurgia<br>
+      Bucomaxilofacial e<br>
+      <em>Estética Facial Avançada.</em>
+    </h1>
+    <p class="hero-sub">
+      Formada pela Universidade Federal Fluminense, <span class="cfg-nome-completo">Dra. Cintia Freire</span> une ciência, precisão cirúrgica e naturalidade para proporcionar resultados seguros e verdadeiramente harmoniosos.
+    </p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary" data-track="hero_agendar" data-modal="hero">Agendar Consulta</a>
+      <a href="#" class="btn-whatsapp" data-track="hero_whatsapp">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar no WhatsApp
+      </a>
     </div>
-  </section>
-</main>
+    <div class="hero-trust">
+      <div class="trust-item">Formada pela UFF</div>
+      <div class="trust-item">Atendimento Personalizado</div>
+      <div class="trust-item">Resultados Naturais</div>
+      <div class="trust-item">Segurança e Excelência</div>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-placeholder" id="hero-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="#B89A6A" stroke-width="1.5"/>
+          <path d="M8 56c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#B89A6A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span style="font-size:0.7rem;opacity:0.6">Foto Profissional<br><span class="cfg-nome-completo">Dra. Cintia Freire</span></span>
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">10+</div>
+        <div class="hero-badge-label">Anos de Experiência</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<script type="module">
-import * as THREE from 'three';
+<!-- AUTORIDADE -->
+<section id="autoridade">
+  <div class="autoridade-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Formação &amp; Expertise</div>
+      <h2 class="section-title">Excelência baseada em conhecimento, experiência e atualização constante.</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="autoridade-grid fade-in">
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="28" width="30" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 28V18l9-6 9 6v10" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="21" cy="23" r="3" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="aut-stat">UFF</div>
+        <h3>Formação de Excelência</h3>
+        <p>Graduação em Cirurgia e Traumatologia Bucomaxilofacial pela Universidade Federal Fluminense, uma das mais respeitadas do país.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="21" cy="21" r="14" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M21 13v8l5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="aut-stat">10+</div>
+        <h3>Anos de Experiência</h3>
+        <p>Trajetória sólida com centenas de procedimentos realizados, combinando técnica refinada e sensibilidade estética.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 6l3.5 9h9.5l-7.7 5.6 2.9 9-8.2-5.9-8.2 5.9 2.9-9L7 15h9.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <div class="aut-stat">Esp.</div>
+        <h3>Especializações</h3>
+        <p>Pós-graduação em Harmonização Facial, Estética Avançada e participação ativa em congressos nacionais e internacionais.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 21h14M14 27h9M21 8v4M31.5 11.5l-2.8 2.8M10.5 11.5l2.8 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="21" cy="21" r="13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="aut-stat">CFM</div>
+        <h3>Registro Regularizado</h3>
+        <p>Devidamente registrada no CRO, com atuação ética, transparente e dentro dos protocolos estabelecidos pelo CFM.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 32l8-8 6 6 8-10 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="aut-stat">∞</div>
+        <h3>Atualização Contínua</h3>
+        <p>Participação regular em congressos, workshops e cursos de atualização para oferecer sempre o que há de mais moderno.</p>
+      </div>
+      <div class="aut-card">
+        <svg class="aut-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 9C15 9 9 14 9 21s6 12 12 12 12-5.373 12-12-4-12-12-12z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M16 21l4 4 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="aut-stat">EBM</div>
+        <h3>Evidência Científica</h3>
+        <p>Todos os protocolos são baseados em evidências científicas, garantindo segurança, previsibilidade e resultados duradouros.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-/* ============================================================
-   1. Campos. Esta lista descreve a interface inteira — cada
-   `nome` corresponde a uma variável no topo do caneca.scad.
-   ============================================================ */
-const CAMPOS = [
-  { grupo:'Peça', nome:'peca', tipo:'opcao', rotulo:'O que gerar',
-    opcoes:[['caneca','Caneca'],['gabarito','Placa do escudo (teste de encaixe)']], valor:'caneca' },
+<!-- AREAS DE ATUACAO -->
+<section id="areas">
+  <div class="areas-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Procedimentos</div>
+      <h2 class="section-title">Áreas de Atuação</h2>
+      <p class="section-sub">Cada procedimento é planejado individualmente, com foco em naturalidade, segurança e resultados que respeitam a harmonia do seu rosto.</p>
+    </div>
+    <div class="areas-grid fade-in">
 
-  { grupo:'Corpo', nome:'diam_interno', rotulo:'Diâmetro interno', un:'mm', min:40,  max:140, passo:1,   valor:80 },
-  { grupo:'Corpo', nome:'altura',       rotulo:'Altura',           un:'mm', min:60,  max:200, passo:1,   valor:120 },
-  { grupo:'Corpo', nome:'conicidade',   rotulo:'Conicidade (Ø topo − Ø base)', un:'mm', min:0, max:40, passo:0.5, valor:0 },
-  { grupo:'Corpo', nome:'parede',       rotulo:'Parede',           un:'mm', min:1.2, max:6,   passo:0.2, valor:3 },
-  { grupo:'Corpo', nome:'fundo',        rotulo:'Fundo',            un:'mm', min:1.2, max:8,   passo:0.2, valor:4 },
-  { grupo:'Corpo', nome:'chanfro',      rotulo:'Chanfro da base',  un:'mm', min:0.2, max:3,   passo:0.1, valor:1 },
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8 2 4 6 4 10c0 5 8 12 8 12s8-7 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="area-benefit">Segurança Total</div>
+        <h3>Cirurgia Bucomaxilofacial</h3>
+        <p>Correção de alterações estruturais do crânio, face e maxilares. Tratamento de traumas, patologias ósseas e deformidades com precisão cirúrgica.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
 
-  { grupo:'Faixas', nome:'faixa',       tipo:'booleano', rotulo:'Faixas', valor:true },
-  { grupo:'Faixas', nome:'faixa_modo_inf', tipo:'opcao', rotulo:'Pilha de baixo',
-    opcoes:[['alta','Saliente sobre o corpo'],['baixa','Escavada no corpo']], valor:'alta' },
-  { grupo:'Faixas', nome:'faixa_modo_sup', tipo:'opcao', rotulo:'Faixa de cima',
-    opcoes:[['alta','Saliente sobre o corpo'],['baixa','Escavada no corpo']], valor:'alta' },
-  { grupo:'Faixas', nome:'faixa_rel',   rotulo:'Avanço ou profundidade', un:'mm', min:0.4, max:3, passo:0.1, valor:1.4 },
-  { grupo:'Faixas', nome:'faixa_raio',  rotulo:'Raio da aresta',       un:'mm', min:0.2, max:3,   passo:0.1, valor:1.2 },
-  { grupo:'Faixas', nome:'garganta',    rotulo:'Garganta',             un:'mm', min:0,   max:1.6, passo:0.1, valor:0.6 },
-  { grupo:'Faixas', nome:'faixa_inf_1', rotulo:'Pilha · 1ª (de baixo)', un:'mm', min:0, max:40, passo:1, valor:10 },
-  { grupo:'Faixas', nome:'faixa_inf_2', rotulo:'Pilha · 2ª',            un:'mm', min:0, max:40, passo:1, valor:14 },
-  { grupo:'Faixas', nome:'faixa_inf_3', rotulo:'Pilha · 3ª',            un:'mm', min:0, max:40, passo:1, valor:10 },
-  { grupo:'Faixas', nome:'faixa_sup_h', rotulo:'Faixa de cima',         un:'mm', min:0, max:50, passo:1, valor:10 },
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div class="area-benefit">Resultados Naturais</div>
+        <h3>Harmonização Facial</h3>
+        <p>Equilíbrio e proporção facial com técnicas minimamente invasivas. Valorização das características naturais de cada paciente.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
 
-  { grupo:'Escudo', nome:'escudo',       tipo:'booleano', rotulo:'Rebaixo para o escudo', valor:true },
-  { grupo:'Escudo', nome:'svg_escudo', tipo:'arquivo', rotulo:'Silhueta (.svg)',
-    chave:'escudo', flag:'escudo_svg' },
-  { grupo:'Escudo', nome:'escudo_larg',  rotulo:'Largura do desenho', un:'mm', min:15, max:120, passo:1, valor:44 },
-  { grupo:'Escudo', nome:'escudo_ang',   rotulo:'Largura',            un:'°',  min:30,  max:140, passo:1,    valor:76 },
-  { grupo:'Escudo', nome:'escudo_alt',   rotulo:'Altura',             un:'mm', min:15,  max:80,  passo:1,    valor:38 },
-  { grupo:'Escudo', nome:'escudo_prof',  rotulo:'Profundidade',       un:'mm', min:0.8, max:3,   passo:0.1,  valor:1.6 },
-  { grupo:'Escudo', nome:'escudo_esp',   rotulo:'Espessura da placa', un:'mm', min:1.2, max:4,   passo:0.2,  valor:2.2 },
-  { grupo:'Escudo', nome:'escudo_folga', rotulo:'Folga por lado',     un:'mm', min:0.1, max:0.6, passo:0.05, valor:0.25 },
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20c4.4 0 8-3.6 8-8S16.4 4 12 4 4 7.6 4 12s3.6 8 8 8z"/><path d="M8 12s1 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>
+        </div>
+        <div class="area-benefit">Aparência Jovial</div>
+        <h3>Rejuvenescimento Facial</h3>
+        <p>Protocolos integrados para restaurar a vitalidade da pele e suavizar marcas do tempo com segurança e naturalidade.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
 
-  { grupo:'Estampa', nome:'svg_estampa', tipo:'arquivo', rotulo:'Motivo (.svg)',
-    chave:'estampa', flag:'estampa_svg' },
-  { grupo:'Estampa', nome:'estampa_tam',    rotulo:'Largura do motivo', un:'mm', min:4,   max:40, passo:0.5, valor:14 },
-  { grupo:'Estampa', nome:'estampa_cols',   rotulo:'Motivos em volta',  un:'',   min:2,   max:20, passo:1,   valor:8 },
-  { grupo:'Estampa', nome:'estampa_linhas', rotulo:'Fileiras',          un:'',   min:1,   max:12, passo:1,   valor:4 },
-  { grupo:'Estampa', nome:'estampa_prof',   rotulo:'Profundidade',      un:'mm', min:0.3, max:2,  passo:0.1, valor:0.5 },
-  { grupo:'Estampa', nome:'estampa_relevo', tipo:'opcao', rotulo:'Relevo',
-    opcoes:[['embutido','Embutida (lisa, outra cor)'],['baixo','Escavada'],['alto','Saliente']], valor:'embutido' },
-  { grupo:'Estampa', nome:'estampa_desloca', tipo:'booleano', rotulo:'Alternar fileiras (tijolo)', valor:true },
-  { grupo:'Estampa', nome:'estampa_margem', rotulo:'Folga até as faixas', un:'mm', min:0, max:25, passo:1, valor:6 },
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <div class="area-benefit">Volume &amp; Contorno</div>
+        <h3>Preenchimentos estratégicos</h3>
+        <p>Definição de contorno com volume adequado e correção de assimetrias onde necessário com material biocompatível.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
 
-  { grupo:'Alça', nome:'alca',         tipo:'booleano', rotulo:'Com alça', valor:true },
-  { grupo:'Alça', nome:'alca_compr',   rotulo:'Avanço',            un:'mm', min:25, max:90,  passo:1,   valor:46 },
-  { grupo:'Alça', nome:'alca_alt',     rotulo:'Vão entre braços',  un:'mm', min:40, max:170, passo:1,   valor:84 },
-  { grupo:'Alça', nome:'alca_barra',   rotulo:'Seção da barra',    un:'mm', min:5,  max:18,  passo:0.5, valor:9 },
-  { grupo:'Alça', nome:'alca_larg',    rotulo:'Largura',           un:'mm', min:6,  max:30,  passo:0.5, valor:15 },
-  { grupo:'Alça', nome:'alca_raio',    rotulo:'Raio das arestas',  un:'mm', min:0.5,max:8,   passo:0.1, valor:3 },
-  { grupo:'Alça', nome:'alca_raiz',    rotulo:'Engrossamento na raiz', un:'mm', min:0, max:10, passo:0.5, valor:4 },
-  { grupo:'Alça', nome:'alca_pe',      rotulo:'Espalhamento do pé', un:'×', min:1, max:3, passo:0.1, valor:1.8 },
-  { grupo:'Alça', nome:'alca_incl',    rotulo:'Inclinação do braço de baixo', un:'°', min:20, max:60, passo:1, valor:45 },
-  { grupo:'Alça', nome:'alca_embutir', rotulo:'Entrada na parede', un:'mm', min:1, max:5, passo:0.1, valor:2.5 },
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <div class="area-benefit">Expressão Suavizada</div>
+        <h3>Toxina Botulínica</h3>
+        <p>Aplicação precisa para suavizar linhas de expressão, elevar a sobrancelha, tratar bruxismo e muito mais.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
 
-  { grupo:'Gravação no corpo', nome:'texto',  tipo:'texto', rotulo:'Nome no corpo', valor:'Vitoria' },
-  { grupo:'Gravação no corpo', nome:'relevo', tipo:'opcao', rotulo:'Relevo',
-    opcoes:[['embutido','Embutido (liso, outra cor)'],['baixo','Escavado'],['alto','Saliente']], valor:'embutido' },
-  { grupo:'Gravação no corpo', nome:'letra_tam',  rotulo:'Altura da letra', un:'mm', min:4,   max:30,  passo:1,   valor:11 },
-  { grupo:'Gravação no corpo', nome:'letra_prof', rotulo:'Profundidade',    un:'mm', min:0.6, max:3,   passo:0.1, valor:1.2 },
-  { grupo:'Gravação no corpo', nome:'letra_z',    rotulo:'Altura no corpo', un:'mm', min:0,   max:200, passo:1,   valor:60 },
-  { grupo:'Gravação no corpo', nome:'letra_ang',  rotulo:'Posição',         un:'°',  min:-180,max:180, passo:1,   valor:180 },
+      <div class="area-card">
+        <div class="area-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 12h6M12 9v6"/></svg>
+        </div>
+        <div class="area-benefit">Alta Performance</div>
+        <h3>Estética Avançada</h3>
+        <p>Protocolos inovadores de bioestimulação, fios de sustentação e técnicas de última geração para resultados excepcionais.</p>
+        <a href="#" class="area-cta">Saiba mais →</a>
+      </div>
 
-  { grupo:'Texto nas faixas', nome:'texto_inf_1', tipo:'texto', rotulo:'Na 1ª faixa', valor:'RACA' },
-  { grupo:'Texto nas faixas', nome:'texto_inf_2', tipo:'texto', rotulo:'Na 2ª faixa', valor:'AMOR' },
-  { grupo:'Texto nas faixas', nome:'texto_inf_3', tipo:'texto', rotulo:'Na 3ª faixa', valor:'E PAIXAO' },
-  { grupo:'Texto nas faixas', nome:'texto_sup',   tipo:'texto', rotulo:'Na faixa de cima', valor:'' },
-  { grupo:'Texto nas faixas', nome:'faixa_relevo', tipo:'opcao', rotulo:'Relevo',
-    opcoes:[['embutido','Embutido (liso, outra cor)'],['baixo','Escavado'],['alto','Saliente']], valor:'embutido' },
-  { grupo:'Texto nas faixas', nome:'faixa_letra', rotulo:'Altura máxima da letra', un:'mm', min:3,   max:20,  passo:0.5, valor:8 },
-  { grupo:'Texto nas faixas', nome:'faixa_prof',  rotulo:'Profundidade',           un:'mm', min:0.4, max:2.5, passo:0.1, valor:0.8 },
-  { grupo:'Texto nas faixas', nome:'faixa_ang',   rotulo:'Posição',                un:'°',  min:-180,max:180, passo:1,   valor:180 },
-  { grupo:'Texto nas faixas', nome:'faixa_arco',  rotulo:'Arco disponível',        un:'°',  min:60,  max:350, passo:5,   valor:300 },
-];
+    </div>
+  </div>
+</section>
 
-// Não vai para o OpenSCAD — só alimenta a estimativa de custo.
-const QUALIDADE = [
-  { nome:'res_export', rotulo:'Resolução da exportação', un:'', min:48, max:160, passo:8, valor:112 },
-  { nome:'separar', tipo:'booleano', rotulo:'Separar o relevo (para dar outra cor)', valor:true },
-  { nome:'formato', tipo:'opcao', rotulo:'Formato',
-    opcoes:[['3mf','3MF (traz a unidade em mm)'],['stl','STL']], valor:'3mf' },
-];
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="dif-inner">
+    <div class="dif-left fade-in">
+      <div class="section-eyebrow">Por que nos escolher</div>
+      <h2 class="section-title">Por que escolher a <span class="cfg-nome-completo">Dra. Cintia Freire</span>?</h2>
+      <p class="section-sub">Um atendimento que une rigor científico, humanização e sensibilidade estética — porque cada rosto conta uma história única.</p>
+      <a href="#" class="btn-gold" data-track="dif_agendar" data-modal="diferenciais">Agendar Avaliação</a>
+    </div>
+    <div class="dif-grid fade-in">
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <h4>Formação de Excelência</h4>
+        <p>Sólida base acadêmica pela UFF, referência nacional em saúde.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h4>Atendimento Humanizado</h4>
+        <p>Cada paciente recebe atenção integral, acolhimento e escuta ativa.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <h4>Planejamento Individual</h4>
+        <p>Protocolos personalizados desenvolvidos para o seu rosto e objetivos.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 12s1.5 3 4 3 4-3 4-3"/><path d="M9 9h.01M15 9h.01"/></svg>
+        </div>
+        <h4>Resultados Naturais</h4>
+        <p>Filosofia estética que valoriza a identidade e a beleza autêntica.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 0v10l4 2"/></svg>
+        </div>
+        <h4>Tecnologia Avançada</h4>
+        <p>Equipamentos de ponta e técnicas atualizadas para máxima segurança.</p>
+      </div>
+      <div class="dif-item">
+        <div class="dif-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h4>Segurança Científica</h4>
+        <p>Todos os procedimentos baseados em evidências e guidelines internacionais.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-// Não vai para o OpenSCAD: é instrução de fatiador.
-const PINTURA = [
-  { nome:'cores', tipo:'texto', rotulo:'Cores, de baixo para cima', valor:'branco,branco,branco,branco,branco,branco' },
-];
+<!-- ANTES E DEPOIS -->
+<section id="antes-depois">
+  <div class="ad-inner">
+    <div class="ad-header fade-in">
+      <div>
+        <div class="section-eyebrow">Resultados</div>
+        <h2 class="section-title">Antes &amp; Depois</h2>
+        <p class="section-sub" style="margin-bottom:0">Resultados reais, realizados com segurança e dentro dos protocolos do CFM.</p>
+      </div>
+      <a href="#" class="btn-primary" data-track="ad_agendar" data-modal="antes_depois">Agendar Avaliação</a>
+    </div>
+    <div class="slider-wrap fade-in">
+      <div class="ad-card">
+        <div class="ad-img-wrap">
+          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/boca.jpeg" alt="Harmonização Facial">
+        </div>
+        <div class="ad-label">
+          <div class="ad-proc">Harmonização Facial</div>
+          <div class="ad-desc">Preenchimento labial + definição de contorno</div>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-img-wrap">
+          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/papada.jpeg" alt="Papada">
+        </div>
+        <div class="ad-label">
+          <div class="ad-proc">Papada</div>
+          <div class="ad-desc">Redução e definição do contorno cervical</div>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-img-wrap">
+          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/Rejuvenescimento.jpeg" alt="Rejuvenescimento">
+        </div>
+        <div class="ad-label">
+          <div class="ad-proc">Rejuvenescimento Facial</div>
+          <div class="ad-desc">Protocolo integrado de bioestimulação</div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-cta-wrap fade-in">
+      <a href="#" class="btn-primary" data-track="ad_cta" data-modal="antes_depois">Agende uma avaliação personalizada</a>
+    </div>
+  </div>
+</section>
 
-const MATERIAL = [
-  { nome:'preco_kg', rotulo:'Preço do filamento', un:'R$/kg', min:40, max:400, passo:5, valor:120 },
-];
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="dep-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Depoimentos</div>
+      <h2 class="section-title">A confiança de quem escolheu excelência.</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="dep-grid fade-in">
 
-/* Presets montados por composição: o corpo, os textos e o
-   esquema de cores são pedaços independentes que se combinam.
-   Assim um produto novo é uma linha, não uma cópia inteira. */
+      <div class="dep-card">
+        <div class="dep-quote-mark">"</div>
+        <div class="dep-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="dep-quote">O resultado superou todas as minhas expectativas. A <span class="cfg-nome-titulo">Dra. Cintia</span> me ouviu com atenção, explicou cada etapa e o resultado ficou completamente natural. Me sinto eu mesma, só mais bonita.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">MA</div>
+          <div>
+            <div class="dep-name">Mariana A.</div>
+            <div class="dep-proc">Harmonização Facial</div>
+          </div>
+        </div>
+      </div>
 
-const CORPO_CANECA = {
-  diam_interno:80, conicidade:0, altura:155, parede:3, fundo:4, chanfro:1,
-  faixa_inf_1:10, faixa_inf_2:14, faixa_inf_3:10, faixa_sup_h:10,
-  alca_compr:46, alca_alt:84, alca_barra:9, alca_larg:15,
-  letra_tam:12, letra_z:48, escudo_larg:44, escudo_alt:38,
-};
+      <div class="dep-card">
+        <div class="dep-quote-mark">"</div>
+        <div class="dep-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="dep-quote">Profissional extremamente competente e humana. Fiz a cirurgia de siso e fui acompanhada em cada detalhe do pós-operatório. Segurança e cuidado em todo o processo.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">RC</div>
+          <div>
+            <div class="dep-name">Rafael C.</div>
+            <div class="dep-proc">Cirurgia Bucomaxilofacial</div>
+          </div>
+        </div>
+      </div>
 
-// Lata de 473 ml: 66 mm de diâmetro. Com 68 internos sobra
-// 1 mm por lado — entra fácil e não chacoalha. A altura pega
-// o terço de baixo da lata; o resto fica de fora, que é como
-// se bebe.
-// Copo Stanley 473: 69 mm na base, 91 na boca, 165 de altura.
-// Cone de 3,8° por lado. O suporte pega 105 mm — o copo desce e
-// encunha, e sobram 60 mm para a mão e para a tampa.
-//   base: 69 + 1,5 de folga  = 70,5
-//   a 105 mm o copo tem 69 + 22·(105/165) = 83,0
-//   boca: 83,0 + 1,5         = 84,5  →  conicidade 14
-const CORPO_STANLEY = {
-  diam_interno:70.5, conicidade:14, altura:105, parede:2.8, fundo:4, chanfro:1,
-  faixa_inf_1:9, faixa_inf_2:12, faixa_inf_3:9, faixa_sup_h:8,
-  alca_compr:44, alca_alt:70, alca_barra:8.5, alca_larg:14,
-  letra_tam:10, letra_z:40, escudo_larg:40, escudo_alt:28,
-};
+      <div class="dep-card">
+        <div class="dep-quote-mark">"</div>
+        <div class="dep-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="dep-quote">Finalmente encontrei uma especialista que entende o que significa naturalidade. O meu rosto ficou mais jovial e harmonioso, sem nenhum exagero. Recomendo de olhos fechados.</p>
+        <div class="dep-author">
+          <div class="dep-avatar">PS</div>
+          <div>
+            <div class="dep-name">Patricia S.</div>
+            <div class="dep-proc">Rejuvenescimento Facial</div>
+          </div>
+        </div>
+      </div>
 
-const CORPO_LATA = {
-  diam_interno:68, conicidade:0, altura:120, parede:3, fundo:4, chanfro:1,
-  faixa_inf_1:9, faixa_inf_2:12, faixa_inf_3:9, faixa_sup_h:9,
-  alca_compr:44, alca_alt:76, alca_barra:8.5, alca_larg:14,
-  letra_tam:10, letra_z:42, escudo_larg:38, escudo_alt:32,
-};
+    </div>
+  </div>
+</section>
 
-const ACABAMENTO = {
-  faixa:true, faixa_modo_inf:'alta', faixa_modo_sup:'alta',
-  faixa_rel:1.4, faixa_raio:1.2, garganta:0.6,
-  alca:true, alca_raio:3, alca_raiz:4, alca_pe:1.8, alca_incl:45, alca_embutir:2.5,
-  escudo:true, escudo_prof:1.6, escudo_esp:2.2, escudo_folga:0.25,
-  separar:true, formato:'3mf',
-};
+<!-- MÉTODO -->
+<section id="metodo">
+  <div class="met-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Como Funciona</div>
+      <h2 class="section-title">Método de Atendimento</h2>
+      <div class="gold-divider"></div>
+      <div class="met-steps">
+        <div class="met-step">
+          <div class="met-num">1</div>
+          <div class="met-content">
+            <h3>Consulta e Diagnóstico</h3>
+            <p>Avaliação completa do seu histórico, objetivos e características individuais. Escuta ativa e análise facial criteriosa.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="met-num">2</div>
+          <div class="met-content">
+            <h3>Planejamento Individualizado</h3>
+            <p>Elaboração de um protocolo personalizado com técnicas, materiais e cronograma adequados ao seu caso específico.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="met-num">3</div>
+          <div class="met-content">
+            <h3>Procedimento</h3>
+            <p>Execução com precisão técnica, ambiente seguro e materiais de alta qualidade. Conforto e segurança em cada etapa.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="met-num">4</div>
+          <div class="met-content">
+            <h3>Acompanhamento Pós-Tratamento</h3>
+            <p>Suporte contínuo, orientações claras e retornos programados para garantir o resultado ideal e a sua satisfação.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="met-right fade-in">
+      <h3>Sua segurança é a nossa prioridade absoluta.</h3>
+      <p>Todos os procedimentos seguem rigorosos protocolos de segurança, com materiais certificados e técnicas validadas cientificamente.</p>
+      <ul class="met-right-list">
+        <li>Ambiente clínico com total biossegurança</li>
+        <li>Materiais com registro ANVISA</li>
+        <li>Protocolos baseados em evidências científicas</li>
+        <li>Plano de emergência para intercorrências</li>
+        <li>Acompanhamento pós-procedimento humanizado</li>
+        <li>Comunicação direta e transparente em todas as etapas</li>
+      </ul>
+      <a href="#" class="btn-primary">Agendar minha consulta</a>
+    </div>
+  </div>
+</section>
 
-const TEXTOS_BAHIA = {
-  texto_inf_1:'NORDESTE', texto_inf_2:'DO', texto_inf_3:'MAIOR', texto_sup:'Desde 1931',
-  faixa_relevo:'embutido', faixa_letra:8, faixa_prof:0.8, faixa_ang:180, faixa_arco:300,
-  texto:'Anderson', relevo:'embutido', letra_prof:1, letra_ang:180,
-};
+<!-- CONTEUDO EDUCACIONAL -->
+<section id="conteudo">
+  <div class="cont-inner">
+    <div class="fade-in">
+      <div class="section-eyebrow">Conteúdo Educacional</div>
+      <h2 class="section-title">Conhecimento que gera confiança.</h2>
+      <p class="section-sub">Informação de qualidade para que você tome decisões conscientes e seguras sobre a sua saúde e estética facial.</p>
+    </div>
+    <div class="cont-grid fade-in">
 
-const SEM_TEXTO = {
-  texto_inf_1:'', texto_inf_2:'', texto_inf_3:'', texto_sup:'', texto:'',
-};
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2C8 2 4 6 4 10c0 5 8 12 8 12s8-7 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Especialidade</div>
+          <h3>O que faz um Cirurgião Bucomaxilofacial?</h3>
+          <p>Entenda o papel do especialista, as diferenças em relação a outras áreas e quando procurar esse profissional.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
 
-const TRES_CORES = { cores:'vermelho,azul,vermelho,branco,vermelho,branco' };
-const DUAS_CORES = { cores:'vermelho,vermelho,vermelho,branco,branco,vermelho' };
-const UMA_COR    = { cores:'branco,branco,branco,branco,branco,branco' };
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Segurança</div>
+          <h3>Harmonização Facial Segura: o que você precisa saber</h3>
+          <p>Como escolher um profissional qualificado, quais perguntas fazer e o que esperar do procedimento.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
 
-const PREDEFINIDOS = {
-  'Caneca · Bahia 3 cores': { ...CORPO_CANECA, ...ACABAMENTO, ...TEXTOS_BAHIA, ...TRES_CORES },
-  'Caneca · Bahia 2 cores': { ...CORPO_CANECA, ...ACABAMENTO, ...TEXTOS_BAHIA, ...DUAS_CORES },
-  'Caneca · neutra':        { ...CORPO_CANECA, ...ACABAMENTO, ...SEM_TEXTO,    ...UMA_COR },
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 20c4.4 0 8-3.6 8-8S16.4 4 12 4 4 7.6 4 12s3.6 8 8 8z"/><path d="M8 12s1 2 4 2 4-2 4-2"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Cirurgia</div>
+          <h3>Cirurgia do Siso: mitos e verdades</h3>
+          <p>Quando é necessária, como é o pós-operatório e por que adiar pode trazer complicações.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
 
-  'Lata 473 · Bahia 3 cores': { ...CORPO_LATA, ...ACABAMENTO, ...TEXTOS_BAHIA, ...TRES_CORES },
-  'Lata 473 · Bahia 2 cores': { ...CORPO_LATA, ...ACABAMENTO, ...TEXTOS_BAHIA, ...DUAS_CORES },
-  'Lata 473 · neutra':        { ...CORPO_LATA, ...ACABAMENTO, ...SEM_TEXTO,    ...UMA_COR },
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Anti-aging</div>
+          <h3>Rejuvenescimento Facial: por onde começar?</h3>
+          <p>Guia completo sobre os procedimentos disponíveis, eficácia, indicações e o que é mito.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
 
-  'Stanley 473 · Bahia 3 cores': { ...CORPO_STANLEY, ...ACABAMENTO, ...TEXTOS_BAHIA, ...TRES_CORES },
-  'Stanley 473 · Bahia 2 cores': { ...CORPO_STANLEY, ...ACABAMENTO, ...TEXTOS_BAHIA, ...DUAS_CORES },
-  'Stanley 473 · neutro':        { ...CORPO_STANLEY, ...ACABAMENTO, ...SEM_TEXTO,    ...UMA_COR },
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Esclarecimento</div>
+          <h3>Mitos e Verdades sobre Procedimentos Estéticos</h3>
+          <p>Desfazendo os principais equívocos sobre toxina, preenchimentos e tratamentos faciais.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
 
-  'Tudo cavado':{ faixa_modo_inf:'baixa', faixa_modo_sup:'baixa', faixa_rel:1.2, faixa_raio:0.8, garganta:0, faixa_relevo:'embutido' },
-  'Aro no topo':{ faixa_modo_inf:'baixa', faixa_modo_sup:'alta', faixa_rel:1.4, faixa_relevo:'embutido' },
-  'Uma faixa':  { faixa_inf_1:16, faixa_inf_2:0, faixa_inf_3:0, texto_inf_2:'', texto_inf_3:'' },
-  'Studio':     { faixa_rel:0.8, faixa_raio:0.6, garganta:0.4, alca_barra:8,  alca_raio:1.5, alca_raiz:3 },
-  'Industrial': { faixa_rel:2.2, faixa_raio:0.4, garganta:1.0, alca_barra:12, alca_raio:2, alca_raiz:6, alca_larg:18 },
-  'Sem alça':   { alca:false },
-};
+      <div class="cont-card">
+        <div class="cont-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="cont-body">
+          <div class="cont-tag">Prevenção</div>
+          <h3>Bruxismo e Estética: a conexão que poucos conhecem</h3>
+          <p>Como o hábito de ranger os dentes afeta o rosto e quais tratamentos podem ajudar.</p>
+          <a href="#" class="cont-link">Ler artigo →</a>
+        </div>
+      </div>
 
-const RES_PREVIA     = 48;
-const DENSIDADE      = 1.24;   // PLA, g/cm³
-const DIAM_FILAMENTO = 1.75;   // mm
-const VOLUME_A1      = 256;    // mm, cubo útil da Bambu Lab A1
+    </div>
+  </div>
+</section>
 
-/* ============================================================
-   2. Estado — URL, senão último uso, senão padrão.
-   ============================================================ */
-const TODOS = CAMPOS.concat(QUALIDADE, PINTURA, MATERIAL).filter(c => c.tipo !== 'arquivo');
-const estado = {};
-for (const c of TODOS) estado[c.nome] = c.valor;
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <div class="cta-final-eyebrow"><span class="cfg-nome-completo">Dra. Cintia Freire</span></div>
+  <h2 class="cta-final-title fade-in">Sua melhor versão começa com uma <em>avaliação especializada.</em></h2>
+  <p class="cta-final-sub fade-in">Receba um plano personalizado desenvolvido por uma especialista que une ciência, técnica e estética. Segurança e naturalidade em cada detalhe.</p>
+  <div class="cta-final-btns fade-in">
+    <a href="#" class="btn-gold">Agendar Consulta</a>
+    <a href="#" class="btn-outline-white">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar no WhatsApp
+    </a>
+  </div>
+</section>
 
-(function restaurar(){
-  let salvo = {};
-  try { salvo = JSON.parse(localStorage.getItem('caneca') || '{}'); } catch(_){}
-  const daUrl = Object.fromEntries(new URLSearchParams(location.hash.slice(1)));
-  for (const c of TODOS) {
-    const bruto = daUrl[c.nome] ?? salvo[c.nome];
-    if (bruto === undefined) continue;
-    if (c.tipo === 'booleano')                       estado[c.nome] = bruto === true || bruto === 'true';
-    else if (c.tipo === 'texto' || c.tipo === 'opcao') estado[c.nome] = String(bruto);
-    else                                              estado[c.nome] = Number(bruto);
-  }
-})();
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="nav-logo"><span class="cfg-nome-titulo">Dra. Cintia</span> <span>Freire</span></span>
+        <p class="footer-desc">Cirurgiã e Traumatologista Bucomaxilofacial formada pela Universidade Federal Fluminense. Especialista em cirurgia facial, harmonização facial e estética avançada.</p>
+        <div class="footer-crm"><span class="cfg-crm">XXXXXX</span> CRO: <span class="cfg-cro">48482</span></div>
+      </div>
+      <div class="footer-col">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#areas">Cirurgia Bucomaxilofacial</a></li>
+          <li><a href="#areas">Harmonização Facial</a></li>
+          <li><a href="#areas">Rejuvenescimento</a></li>
+          <li><a href="#areas">Preenchimentos</a></li>
+          <li><a href="#areas">Toxina Botulínica</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#autoridade">Formação</a></li>
+          <li><a href="#diferenciais">Diferenciais</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#conteudo">Blog</a></li>
+          <li><a href="#cta-final">Agendar Consulta</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#">WhatsApp: <span class="cfg-wa-label">(21) 99999-9999</span></a></li>
+          <li><a href="#">Endereço: <span class="cfg-endereco">Rua Exemplo, 123</span></a></li>
+          <li><a href="#">Ver no Google Maps</a></li>
+        </ul>
+        <div style="margin-top:1.2rem">
+          <h4 style="margin-bottom:0.75rem">Redes Sociais</h4>
+          <div class="footer-social">
+            <a href="#" class="social-btn" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="WhatsApp">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="cfg-ano"></span> <span id="cfg-nome-footer"></span>. Todos os direitos reservados.</p>
+      <div class="footer-legal">
+        <a href="#">Política de Privacidade</a>
+        <a href="#">LGPD</a>
+        <a href="#">Termos de Uso</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
-function guardar(){
-  localStorage.setItem('caneca', JSON.stringify(estado));
-  location.replace('#' + new URLSearchParams(estado).toString());
-}
+<!-- MODAL AGENDAMENTO -->
+<div class="modal-overlay" id="modal-lead" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close-btn" aria-label="Fechar">×</button>
+    <div id="form-wrap">
+      <div class="modal-eyebrow">Agendamento</div>
+      <h2 class="modal-title" id="modal-title">Solicitar avaliação<br>personalizada</h2>
+      <div class="form-group">
+        <label for="lead-nome">Nome completo *</label>
+        <input type="text" id="lead-nome" placeholder="Seu nome" required>
+      </div>
+      <div class="form-group">
+        <label for="lead-tel">WhatsApp *</label>
+        <input type="tel" id="lead-tel" placeholder="(21) 99999-9999" required>
+      </div>
+      <div class="form-group">
+        <label for="lead-email">E-mail</label>
+        <input type="email" id="lead-email" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label for="lead-proc">Procedimento de interesse</label>
+        <select id="lead-proc">
+          <option value="">Selecione...</option>
+          <option>Cirurgia Bucomaxilofacial</option>
+          <option>Harmonização Facial</option>
+          <option>Rejuvenescimento Facial</option>
+          <option>Preenchimentos</option>
+          <option>Toxina Botulínica</option>
+          <option>Estética Avançada</option>
+          <option>Ainda não sei</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="lead-msg">Mensagem (opcional)</label>
+        <textarea id="lead-msg" placeholder="Conte um pouco sobre o que busca..."></textarea>
+      </div>
+      <button class="form-submit" id="form-submit-btn">Solicitar Avaliação</button>
+      <p class="form-error-msg" id="form-error">Preencha nome e WhatsApp para continuar.</p>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="form-success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>Solicitação enviada!</h3>
+      <p>Obrigada pelo contato. A equipe da <span class="cfg-nome-titulo">Dra. Cintia</span> entrará em contato pelo WhatsApp em breve.</p>
+    </div>
+  </div>
+</div>
 
-// Só os campos que o OpenSCAD conhece.
-function paraOpenscad(extra){
-  const p = {};
-  for (const c of CAMPOS) {
-    if (c.tipo === 'arquivo') p[c.flag] = !!svgs[c.chave];
-    else p[c.nome] = estado[c.nome];
-  }
-  return Object.assign(p, extra);
-}
+<!-- FLOATING WHATSAPP -->
 
-// Altura do desenho do escudo, deduzida da proporção do SVG.
-function alturaEscudo(){
-  if (svgs.escudo && props.escudo) return estado.escudo_larg / props.escudo;
-  return estado.escudo_alt;
-}
+<a href="#" class="floating-wa" aria-label="Falar no WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
 
-/* ============================================================
-   3. Validação. Erro bloqueia a exportação; aviso não.
-   ============================================================ */
-function validar(){
-  const e = [], a = [];
-  const s = estado;
-  const con = s.conicidade || 0;
-  const riZ = (z) => s.diam_interno/2 + (con/2) * (z / s.altura);
-  const reZ = (z) => riZ(z) + s.parede;
-  const de  = s.diam_interno + con + 2 * s.parede;   // no topo, o maior
-  const re_ = reZ(s.altura / 2);
-  const sal    = s.faixa ? s.faixa_rel : 0;
-  const alta_i = s.faixa_modo_inf !== 'baixa';
-  const alta_s = s.faixa_modo_sup !== 'baixa';
-  const Rfi = s.faixa ? (alta_i ? re_ + sal : re_ - sal) : re_;
-  const Rfs = s.faixa ? (alta_s ? reZ(s.altura) + sal : reZ(s.altura) - sal) : reZ(s.altura);
-  const garh = 1.2;
-  const gar  = s.faixa ? s.garganta : 0;
+<script>
+  // ── SUPABASE CONFIG — lido do bloco CFG no topo ──────────────
+  const SUPABASE_URL    = window.CFG.supabaseUrl;
+  const SUPABASE_ANON_KEY = window.CFG.supabaseKey;
+  const CLIENT_ID       = window.CFG.clientId;
 
-  // pilha de baixo
-  const hs = s.faixa ? [s.faixa_inf_1, s.faixa_inf_2, s.faixa_inf_3].filter(h => h > 0) : [];
-  const acum = (i) => hs.slice(0, i+1).reduce((x,y) => x+y, 0);
-  const base_de = (i) => i === 0 ? 0 : acum(i-1) + i * garh;
-  const topo_de = (i) => acum(i) + i * garh;
-  const fim_inf = hs.length ? topo_de(hs.length-1) + garh : 0;
-
-  const sup_on = s.faixa && s.faixa_sup_h > 0;
-  const Rtop = (sup_on && alta_s) ? Rfs : re_;
-  const rrt  = (Rtop - riZ(s.altura)) / 2;
-  const Zsup_topo = alta_s ? s.altura - rrt : s.altura - rrt - garh;
-  const topo_corpo = sup_on ? (alta_s ? Zsup_topo - s.faixa_sup_h - garh
-                                      : Zsup_topo - s.faixa_sup_h)
-                            : s.altura - rrt;
-
-  if (s.peca === 'gabarito') {
-    if (!s.escudo) e.push('A placa só faz sentido com o rebaixo ligado.');
-    const larg = svgs.escudo ? s.escudo_larg
-                          : s.escudo_ang * Math.PI/180 * (re_ - s.escudo_prof + s.escudo_esp/2) - 2*s.escudo_folga;
-    const alt  = svgs.escudo ? alturaEscudo() : s.escudo_alt - 2*s.escudo_folga;
-    if (larg < 5) e.push('A placa ficou pequena demais.');
-    else a.push(`Placa de ${larg.toFixed(1)} × ${alt.toFixed(1)} mm`
-              + (svgs.escudo ? ' com a silhueta do SVG. ' : ' retangular. ')
-              + 'Imprima deitada, aqueça e conforme dentro do rebaixo.');
-    return { erros:e, avisos:a };
-  }
-
-  if (s.parede < 1.2) e.push(`Parede de ${s.parede} mm não fecha com bico de 0,4 — mínimo 1,2 mm.`);
-  else if (s.parede < 1.6) a.push('Parede fina: 3 perímetros pedem 1,6 mm ou mais.');
-  if (s.fundo < 1.2) e.push('Fundo abaixo de 1,2 mm vaza.');
-  if (s.altura > VOLUME_A1) e.push(`Altura de ${s.altura} mm passa dos ${VOLUME_A1} mm da A1.`);
-  if (2*Math.max(Rfi, Rfs, reZ(s.altura)) > VOLUME_A1)     e.push(`Diâmetro externo de ${(2*Math.max(Rfi,Rfs,reZ(s.altura))).toFixed(1)} mm passa dos ${VOLUME_A1} mm da A1.`);
-  if (s.chanfro > s.fundo)  a.push('O chanfro é maior que o fundo — a base fica fina na borda.');
-  if (con > 0) {
-    const ang = Math.atan((con/2) / s.altura) * 180 / Math.PI;
-    a.push(`Cone de ${ang.toFixed(1)}° por lado: Ø ${s.diam_interno} na base, `
-         + `Ø ${(s.diam_interno + con).toFixed(1)} na boca.`);
-    if (ang > 12) a.push('Cone acima de 12°: a parede externa vira balanço e o fatiador vai pedir suporte.');
-    if (con >= s.diam_interno) e.push('A conicidade é maior que o próprio diâmetro da base.');
-  }
-
-  if (s.faixa) {
-    if (hs.length === 0 && !sup_on) a.push('As faixas estão ligadas mas todas com altura zero.');
-    if (fim_inf + 4 >= topo_corpo)
-      e.push('A pilha de baixo encostou na faixa de cima — não sobrou corpo entre elas.');
-    if ((alta_i || alta_s) && s.garganta >= s.parede - 0.8)
-      e.push(`Garganta de ${s.garganta} mm numa parede de ${s.parede} mm deixa parede fina demais.`);
-    if ((!alta_i || !alta_s) && sal >= s.parede - 0.8)
-      e.push(`Faixa escavada ${s.faixa_rel} mm numa parede de ${s.parede} mm deixa menos de 0,8 mm de parede.`);
-    if (!alta_i && !alta_s && s.garganta > 0.05)
-      a.push('Com todas as faixas escavadas a garganta não é usada — a parede entre elas já faz a separação.');
-    if (hs.length > 1 && !alta_i && s.garganta > 0.05)
-      a.push('A pilha escavada não usa a garganta: a parede entre os sulcos já separa.');
-    if (s.faixa_raio > sal - 0.1)
-      a.push('O raio da aresta é maior que a própria faixa — ela vira uma ondulação em vez de um volume.');
-    const menor = Math.min(...hs.concat(sup_on ? [s.faixa_sup_h] : []).filter(h=>h>0));
-    if (isFinite(menor) && s.faixa_raio > menor/3)
-      a.push(`O raio de ${s.faixa_raio} mm come a faixa de ${menor} mm — ela vira um tubo arredondado.`);
-    if (sal < 0.8) a.push('Faixa quase rente ao corpo: não vai ler como peça sobreposta.');
-  }
-
-  // ---- alça
-  if (s.alca) {
-    const t  = s.alca_barra, tr = t + s.alca_raiz, L = s.alca_compr, A = s.alca_alt;
-    if (s.alca_embutir >= s.parede)
-      e.push('A alça entra mais que a espessura da parede — os braços furam para dentro da caneca.');
-    if (s.alca_raio > t/2 - 0.2) e.push('O raio das arestas é maior que metade da barra.');
-    if (s.alca_raio > s.alca_larg/2 - 0.2) e.push('O raio das arestas é maior que metade da largura.');
-
-    const zt0 = s.altura/2 + A/2;
-    const espalha = tr * s.alca_pe;
-    const transic = Math.max(tr * 0.6, espalha * 0.45);
-    const xw  = reZ(zt0) + transic;
-    const xo  = reZ(zt0) + L;
-    const zt  = zt0;
-    const zb  = s.altura/2 - A/2;
-    const zbo = zb + (xo - xw) * Math.tan(s.alca_incl * Math.PI/180);
-    const total = xo + t/2 + re_;
-    if (L <= transic + t)
-      e.push(`Com um pé desse tamanho a transição já ocupa ${transic.toFixed(0)} mm — aumente o avanço ou reduza o espalhamento do pé.`);
-    if (total > VOLUME_A1) e.push(`Com a alça a peça mede ${total.toFixed(0)} mm — não cabe na mesa da A1.`);
-
-    if (s.alca_incl < 45)
-      a.push(`Braço de baixo a ${s.alca_incl}°: abaixo de 45° o fatiador vai pedir suporte.`);
-
-    const pe = espalha / 2;
-    if (zt + pe > s.altura - rrt) e.push('O pé da alça passa da borda da caneca.');
-    if (zb - pe < 0)              e.push('O pé da alça passa da base.');
-
-    const vao_a = (zt - t/2) - (zbo + t/2);
-    const vao_l = (xo - xw) - tr/2 - t/2;
-    if (vao_a <= 2) e.push('A alça fechou: a inclinação consumiu o vão. Aumente o vão entre braços ou reduza o avanço.');
-    else if (vao_a < 26) a.push(`Vão de ${vao_a.toFixed(0)} mm de altura: cabem dois dedos.`);
-    if (vao_l < 22) a.push(`Vão de ${vao_l.toFixed(0)} mm de profundidade: dedo grosso não entra.`);
-    if (s.alca_raiz > t) a.push('A raiz ficou mais que o dobro da barra — a conicidade fica exagerada.');
-  }
-
-  // ---- escudo
-  if (s.escudo) {
-    const z  = s.altura * 0.58;
-    const ha = alturaEscudo();
-        if (svgs.escudo && props.escudo)
-      a.push(`Silhueta: ${s.escudo_larg} × ${ha.toFixed(1)} mm, ${svgs.escudo.contornos} contorno${svgs.escudo.contornos>1?'s':''}.`);
-    if (s.escudo_prof >= s.parede - 0.8)
-      e.push(`Rebaixo de ${s.escudo_prof} mm numa parede de ${s.parede} mm deixa menos de 0,8 mm de fundo.`);
-    if (z + ha/2 > topo_corpo) e.push('O rebaixo invade a faixa de cima — reduza a largura do desenho ou a altura das faixas.');
-    if (z - ha/2 < fim_inf)    e.push('O rebaixo invade a pilha de baixo — reduza a largura do desenho ou a altura das faixas.');
-    const largura_mm = svgs.escudo ? s.escudo_larg : s.escudo_ang * Math.PI/180 * re_;
-    if (largura_mm > re_ * 1.6) a.push('Desenho muito largo para o diâmetro: a placa fica difícil de conformar.');
-    if (s.escudo_esp < s.escudo_prof)
-      a.push('A placa é mais fina que o rebaixo — o escudo vai afundar em vez de ficar saliente.');
-    else if (s.escudo_esp - s.escudo_prof < 0.4)
-      a.push('A placa mal sobressai. Deixe uns 0,6 mm para a sombra esconder a fresta.');
-    if (s.escudo_folga < 0.2) a.push('Folga abaixo de 0,2 mm: a placa pode não entrar nem quente.');
-  }
-
-  // ---- estampa
-  if (svgs.estampa) {
-    const z0 = fim_inf + s.estampa_margem;
-    const z1 = topo_corpo - s.estampa_margem;
-    if (z1 - z0 < s.estampa_tam)
-      e.push('Não sobrou corpo livre para a estampa. Reduza a folga até as faixas ou o tamanho do motivo.');
-    else {
-      const passo_z = (z1 - z0) / s.estampa_linhas;
-      const prop = props.estampa;
-      const alt_mot = prop ? s.estampa_tam / prop : s.estampa_tam;
-      if (alt_mot > passo_z * 0.95)
-        a.push(`As fileiras se tocam: motivo de ${alt_mot.toFixed(0)} mm num passo de ${passo_z.toFixed(0)} mm. Reduza fileiras ou tamanho.`);
-      const passo_a = 360 / s.estampa_cols * Math.PI/180 * re_;
-      if (s.estampa_tam > passo_a * 0.95)
-        a.push(`Os motivos se tocam em volta: ${s.estampa_tam} mm num passo de ${passo_a.toFixed(0)} mm. Reduza a quantidade ou o tamanho.`);
-      if (s.estampa_relevo !== 'alto' && s.estampa_prof >= s.parede - 0.8)
-        e.push('A estampa escavada deixa a parede fina demais.');
-      const total = s.estampa_cols * s.estampa_linhas;
-      if (total > 60) a.push(`${total} motivos: o render vai demorar. Acima disso, prefira exportar e conferir no fatiador.`);
+  // ── CLIENTE SUPABASE LEVE (fetch direto, sem SDK) ────────────
+  async function sbInsert(table, data) {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) console.warn(`Supabase [${table}] erro ${res.status}`);
+      return res.ok;
+    } catch (e) {
+      console.warn('Supabase insert falhou:', e);
+      return false;
     }
   }
 
-  // ---- gravação
-  const n = (s.texto || '').length;
-  if (n > 0) {
-    if (s.letra_z + s.letra_tam/2 > topo_corpo)
-      a.push('O nome invade a faixa de cima. Para escrever na faixa, use o bloco "Texto nas faixas".');
-    if (s.letra_z - s.letra_tam/2 < fim_inf)
-      a.push('O nome invade a faixa de baixo. Para escrever na faixa, use o bloco "Texto nas faixas".');
-    if (s.relevo !== 'alto' && s.letra_prof >= s.parede - 0.6)
-      e.push(`Gravar ${s.letra_prof} mm numa parede de ${s.parede} mm fura a parede.`);
-
-    const passo_ideal = (s.letra_tam * 1.05 / re_) * 180 / Math.PI;
-    const passo_cabe  = n > 1 ? 200 / (n - 1) : passo_ideal;
-    if (passo_cabe < passo_ideal)
-      a.push(`"${s.texto}" não cabe no tamanho pedido — as letras saem ${Math.round(100*passo_cabe/passo_ideal)}% do tamanho.`);
-
-    if (s.alca) {
-      const meia_alca  = Math.atan2(s.alca_larg/2, re_) * 180/Math.PI + 6;
-      const meia_texto = (n-1) * Math.min(passo_ideal, passo_cabe)/2 + (s.letra_tam*0.5/re_)*180/Math.PI;
-      const d = Math.abs((((s.letra_ang + 180) % 360) + 360) % 360 - 180);
-      if (d < meia_alca + meia_texto) a.push('A gravação passa por trás da alça.');
-    }
-    if (svgs.estampa)
-      a.push('A estampa cobre o corpo inteiro: o nome vai ficar por cima dela. Considere mover o nome para uma faixa.');
-    if (s.escudo) {
-      const dz = Math.abs(s.letra_z - s.altura*0.58);
-      const d180 = Math.abs(((s.letra_ang % 360) + 360) % 360 - 180);
-      if (d180 < s.escudo_ang/2 + 4 && dz < (s.escudo_alt + s.letra_tam)/2)
-        a.push('A gravação cai dentro do rebaixo do escudo.');
-    }
+  // ── UTMs (lê da URL e persiste em sessionStorage) ─────────────
+  function getUtms() {
+    const params = new URLSearchParams(window.location.search);
+    const keys = ['utm_source', 'utm_medium', 'utm_campaign'];
+    const utms = {};
+    keys.forEach(k => {
+      const v = params.get(k) || sessionStorage.getItem(k) || null;
+      if (v) { sessionStorage.setItem(k, v); utms[k] = v; }
+      else utms[k] = null;
+    });
+    return utms;
   }
 
-  // ---- texto nas faixas
-  if (s.faixa) {
-    const alvos = hs.map((h, i) => [[s.texto_inf_1, s.texto_inf_2, s.texto_inf_3][i] || '', h, `${i+1}ª faixa`])
-                    .concat(sup_on ? [[s.texto_sup || '', s.faixa_sup_h, 'faixa de cima']] : []);
-    let algum = false;
-    for (const [txt, h, onde] of alvos) {
-      const n2 = txt.length;
-      if (n2 === 0) continue;
-      algum = true;
-      const tam = Math.min(s.faixa_letra, h * 0.6);
-      if (tam < 3) { a.push(`A ${onde} tem ${h} mm — letra legível só a partir de uns 5 mm de faixa.`); continue; }
-      if (tam < s.faixa_letra - 0.1)
-        a.push(`Na ${onde} a letra cai para ${tam.toFixed(1)} mm por causa da altura da faixa.`);
-      if (n2 < 2) continue;
-      const pi = (tam * 1.05 / (onde === 'faixa de cima' ? Rfs : Rfi)) * 180 / Math.PI;
-      const pc = s.faixa_arco / (n2 - 1);
-      if (pc < pi * 0.55)
-        e.push(`"${txt}" não cabe na ${onde}: ficaria com menos da metade do tamanho. Encurte ou aumente o arco.`);
-      else if (pc < pi)
-        a.push(`"${txt}" sai ${Math.round(100*pc/pi)}% do tamanho na ${onde}.`);
-    }
-    if (algum) {
-      if (s.faixa_relevo === 'alto')
-        a.push('Letra saliente vira ilha solta em cada camada: o bico retrai e recomeça centenas de vezes '
-             + 'e o filamento embola. Use "Embutido" — mesma cor separada, superfície lisa.');
-      const disp = Math.min(alta_i ? sal + s.parede : s.parede - sal,
-                            alta_s ? sal + s.parede : s.parede - sal);
-      if (s.faixa_relevo !== 'alto' && s.faixa_prof >= disp - 0.8)
-        e.push('A gravação atravessa a faixa e a parede — reduza a profundidade.');
-      if (s.alca && s.faixa_arco > 300)
-        a.push('Arco acima de 300°: o texto das faixas vai passar atrás da alça.');
-    }
+  // ── PAGE VIEW ────────────────────────────────────────────────
+  function trackPageView() {
+    const utms = getUtms();
+    sbInsert('page_views', {
+      client_id:    CLIENT_ID,
+      page:         window.location.pathname || '/',
+      utm_source:   utms.utm_source,
+      utm_medium:   utms.utm_medium,
+      utm_campaign: utms.utm_campaign
+    });
   }
 
-  return { erros:e, avisos:a };
-}
-
-/* ============================================================
-   4. Painel
-   ============================================================ */
-const painel = document.getElementById('painel');
-
-function montarCampo(c){
-  const div = document.createElement('div');
-  div.className = 'campo';
-  div.dataset.campo = c.nome;
-
-  if (c.tipo === 'booleano') {
-    div.innerHTML = `<label class="interruptor">
-      <input type="checkbox" data-nome="${c.nome}" ${estado[c.nome] ? 'checked' : ''}> ${c.rotulo}</label>`;
-  } else if (c.tipo === 'texto') {
-    div.innerHTML = `<div class="topo"><label for="f-${c.nome}">${c.rotulo}</label></div>
-      <input type="text" id="f-${c.nome}" data-nome="${c.nome}" maxlength="24" value="${estado[c.nome]}">`;
-  } else if (c.tipo === 'arquivo') {
-    div.innerHTML = `<div class="topo"><label for="f-${c.nome}">${c.rotulo}</label>
-        <span class="valor" id="v-${c.nome}">nenhum</span></div>
-      <input type="file" id="f-${c.nome}" data-chave="${c.chave}" accept=".svg,image/svg+xml">`;
-  } else if (c.tipo === 'opcao') {
-    div.innerHTML = `<div class="topo"><label for="f-${c.nome}">${c.rotulo}</label></div>
-      <select id="f-${c.nome}" data-nome="${c.nome}">${
-        c.opcoes.map(([v,r]) => `<option value="${v}" ${estado[c.nome]===v?'selected':''}>${r}</option>`).join('')}</select>`;
-  } else {
-    div.innerHTML = `<div class="topo">
-        <label for="f-${c.nome}">${c.rotulo}</label>
-        <span class="valor" id="v-${c.nome}">${estado[c.nome]} ${c.un}</span></div>
-      <input type="range" id="f-${c.nome}" data-nome="${c.nome}"
-             min="${c.min}" max="${c.max}" step="${c.passo}" value="${estado[c.nome]}">`;
+  // ── CLIQUE EM LINK/BOTÃO → link_clicks ───────────────────────
+  // Colunas: id, client_id, link_type, link_label,
+  //          utm_source, utm_medium, utm_campaign, created_at
+  function trackClick(linkType, linkLabel) {
+    const utms = getUtms();
+    sbInsert('link_clicks', {
+      client_id:    CLIENT_ID,
+      link_type:    linkType,
+      link_label:   linkLabel,
+      utm_source:   utms.utm_source,
+      utm_medium:   utms.utm_medium,
+      utm_campaign: utms.utm_campaign
+    });
   }
-  return div;
-}
 
-for (const grupo of [...new Set(CAMPOS.map(c => c.grupo))]) {
-  const bloco = document.createElement('fieldset');
-  bloco.innerHTML = `<legend>${grupo}</legend>`;
-  for (const c of CAMPOS.filter(x => x.grupo === grupo)) bloco.appendChild(montarCampo(c));
-  painel.appendChild(bloco);
-}
+  // ── BIND DE TODOS OS BOTÕES RASTREADOS ───────────────────────
+  function bindButtons() {
+    // [seletor, link_type, link_label]
+    const map = [
+      ['[data-track="hero_agendar"]',       'cta_agendar',   'Agendar Consulta · Hero'],
+      ['[data-track="hero_whatsapp"]',      'cta_whatsapp',  'WhatsApp · Hero'],
+      ['[data-track="nav_agendar"]',        'cta_agendar',   'Agendar Consulta · Nav'],
+      ['[data-track="dif_agendar"]',        'cta_agendar',   'Agendar Avaliação · Diferenciais'],
+      ['[data-track="ad_agendar"]',         'cta_agendar',   'Agendar Avaliação · Antes-Depois'],
+      ['[data-track="ad_cta"]',             'cta_agendar',   'Avaliação Personalizada · Antes-Depois'],
+      ['[data-track="met_agendar"]',        'cta_agendar',   'Agendar Consulta · Método'],
+      ['[data-track="cta_final_agendar"]',  'cta_agendar',   'Agendar Consulta · CTA Final'],
+      ['[data-track="cta_final_whatsapp"]', 'cta_whatsapp',  'WhatsApp · CTA Final'],
+      ['[data-track="float_whatsapp"]',     'cta_whatsapp',  'WhatsApp Flutuante'],
+    ];
+    map.forEach(([sel, type, label]) => {
+      document.querySelectorAll(sel).forEach(el => {
+        el.addEventListener('click', () => trackClick(type, label));
+      });
+    });
+    // Cards de área — data-track-area="harmonizacao" etc.
+    document.querySelectorAll('[data-track-area]').forEach(el => {
+      el.addEventListener('click', () => {
+        const area = el.getAttribute('data-track-area');
+        trackClick('cta_area', `Saiba mais · ${area}`);
+      });
+    });
+  }
 
-const blocoQual = document.createElement('fieldset');
-blocoQual.innerHTML = `<legend>Qualidade</legend>`;
-for (const c of QUALIDADE) blocoQual.appendChild(montarCampo(c));
-painel.appendChild(blocoQual);
+  // ── MODAL DE AGENDAMENTO ─────────────────────────────────────
+  const modal   = document.getElementById('modal-lead');
+  const closeBtn = document.getElementById('modal-close-btn');
+  let modalOrigin = 'desconhecido';
 
-const blocoMat = document.createElement('fieldset');
-blocoMat.innerHTML = `<legend>Material</legend>`;
-for (const c of MATERIAL) blocoMat.appendChild(montarCampo(c));
-painel.appendChild(blocoMat);
+  function openModal(origem) {
+    modalOrigin = origem;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lead-nome').focus();
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-const blocoPint = document.createElement('fieldset');
-blocoPint.innerHTML = `<legend>Pintura no fatiador</legend>`;
-for (const c of PINTURA) blocoPint.appendChild(montarCampo(c));
-blocoPint.insertAdjacentHTML('beforeend', `
-  <div class="pintura" id="pintura"></div>
-  <div class="predefinidos" style="margin-top:10px">
-    <button id="btn-copiar-z">Copiar faixas</button>
-  </div>`);
-painel.appendChild(blocoPint);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// As faixas do modelo são intervalos exatos de Z, então o
-// Height range modifier do fatiador pinta todas de uma vez.
-// Os limites caem no meio das gargantas: é onde a troca de cor
-// fica escondida na sombra.
-function faixasDeAltura(){
-  const s = estado;
-  const re_ = s.diam_interno/2 + s.parede;
-  const sal = s.faixa ? s.faixa_rel : 0;
-  const alta_s = s.faixa_modo_sup !== 'baixa';
-  const sup_on = s.faixa && s.faixa_sup_h > 0;
-  const Rfs = s.faixa ? (alta_s ? re_ + sal : re_ - sal) : re_;
-  const rrt = ((sup_on && alta_s ? Rfs : re_) - s.diam_interno/2) / 2;
-  const garh = 1.2;
-
-  const hs = s.faixa ? [s.faixa_inf_1, s.faixa_inf_2, s.faixa_inf_3].filter(h => h > 0) : [];
-  const acum = (i) => hs.slice(0, i+1).reduce((x,y) => x+y, 0);
-  const topo_de = (i) => acum(i) + i * garh;
-
-  const linhas = [];
-  let corte = 0;
-  hs.forEach((h, i) => {
-    const fim = topo_de(i) + (i < hs.length - 1 ? garh/2 : garh/2);
-    linhas.push([corte, fim, `faixa ${i+1} (${h} mm)`]);
-    corte = fim;
+  document.querySelectorAll('[data-modal]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const origem = el.getAttribute('data-modal');
+      openModal(origem);
+      trackClick('modal_open', `Abrir modal · ${origem}`);
+    });
   });
 
-  const Zsup_topo = alta_s ? s.altura - rrt : s.altura - rrt - garh;
-  const fimCorpo = sup_on ? Zsup_topo - s.faixa_sup_h - garh/2 : s.altura;
-  const meio = (corte + fimCorpo) / 2;
+  // ── SUBMIT DO FORMULÁRIO → leads ─────────────────────────────
+  // Colunas: id, client_id, name, phone,
+  //          utm_source, utm_medium, utm_campaign, created_at
+  document.getElementById('form-submit-btn').addEventListener('click', async () => {
+    const name   = document.getElementById('lead-nome').value.trim();
+    const phone  = document.getElementById('lead-tel').value.trim();
+    const proc   = document.getElementById('lead-proc').value;
+    const errEl  = document.getElementById('form-error');
 
-  linhas.push([corte, meio, 'corpo · metade de baixo']);
-  linhas.push([meio, fimCorpo, 'corpo · metade de cima']);
-  if (sup_on) linhas.push([fimCorpo, s.altura, `faixa de cima (${s.faixa_sup_h} mm)`]);
+    if (!name || !phone) {
+      errEl.textContent = 'Preencha nome e WhatsApp para continuar.';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
 
-  return linhas;
-}
+    const btn = document.getElementById('form-submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
 
-function coresDaVez(){
-  return (estado.cores || '').split(',').map(x => x.trim());
-}
+    const utms = getUtms();
+    const ok = await sbInsert('leads', {
+      client_id:    CLIENT_ID,
+      name,
+      phone,
+      utm_source:   utms.utm_source,
+      utm_medium:   utms.utm_medium,
+      utm_campaign: utms.utm_campaign
+    });
 
-function textoFaixas(){
-  const cores = coresDaVez();
-  return faixasDeAltura()
-    .map(([a, b, nome], i) => `${a.toFixed(1)} – ${b.toFixed(1)} mm   ${cores[i] || '—'}   (${nome})`)
-    .join('\n');
-}
+    btn.disabled = false;
+    btn.textContent = 'Solicitar Avaliação';
 
-function trocasDeCor(){
-  const c = coresDaVez().filter(x => x);
-  let n = 0;
-  for (let i = 1; i < c.length; i++) if (c[i] !== c[i-1]) n++;
-  return { trocas: n, distintas: new Set(c).size };
-}
+    if (ok) {
+      // Também registra o clique de conversão
+      trackClick('lead_convertido', `Lead · ${proc || 'sem procedimento'}`);
 
-function atualizarPintura(){
-  const cores = coresDaVez();
-  const el = document.getElementById('pintura');
-  el.innerHTML = faixasDeAltura()
-    .map(([a, b, nome], i) =>
-      `<div><b>${a.toFixed(1)}</b> – <b>${b.toFixed(1)}</b><span>${cores[i] || '—'}</span><i>${nome}</i></div>`)
-    .join('');
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
 
-  const { trocas, distintas } = trocasDeCor();
-  const relevo = estado.separar && estado.formato === '3mf';
-  el.insertAdjacentHTML('beforeend',
-    `<div style="margin-top:10px"><i>${distintas} cor${distintas>1?'es':''}, `
-    + `${trocas} troca${trocas!==1?'s':''} de filamento na altura`
-    + (relevo ? ' + o relevo como parte à parte' : '') + '</i></div>');
-}
+      // Abre WhatsApp após 2s com dados pré-preenchidos
+      setTimeout(() => {
+        const texto = encodeURIComponent(
+          `Olá, <span class="cfg-nome-titulo">Dra. Cintia</span>! Me chamo ${name} e gostaria de agendar uma avaliação${proc ? ` para ${proc}` : ''}.`
+        );
+        window.open(`#?text=${texto}`, '_blank');
+        closeModal();
+        // Reset
+        document.getElementById('form-wrap').style.display = 'block';
+        document.getElementById('form-success').style.display = 'none';
+        ['lead-nome','lead-tel','lead-email','lead-msg'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.value = '';
+        });
+        document.getElementById('lead-proc').value = '';
+      }, 2000);
+    } else {
+      errEl.textContent = 'Erro ao enviar. Tente pelo WhatsApp diretamente.';
+      errEl.style.display = 'block';
+    }
+  });
 
-document.getElementById('btn-copiar-z').addEventListener('click', async (ev) => {
-  try { await navigator.clipboard.writeText(textoFaixas()); ev.target.textContent = 'copiado'; }
-  catch (_) { ev.target.textContent = 'não deu — veja a lista acima'; }
-  setTimeout(() => { ev.target.textContent = 'Copiar faixas'; }, 2000);
-});
+  // ── NAV SCROLL ───────────────────────────────────────────────
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
 
-const blocoPre = document.createElement('fieldset');
-blocoPre.innerHTML = `<legend>Modelos salvos</legend>
-  <div class="predefinidos" id="chips"></div>
-  <div class="predefinidos" style="margin-top:12px">
-    <button id="btn-salvar" class="principal">Salvar este</button>
-    <button id="btn-zerar">Zerar tudo</button>
-  </div>`;
-painel.appendChild(blocoPre);
-
-const CHAVE_MEUS = 'caneca_modelos';
-const chips = document.getElementById('chips');
-
-function meusModelos(){
-  try { return JSON.parse(localStorage.getItem(CHAVE_MEUS) || '{}'); } catch(_) { return {}; }
-}
-function gravarModelos(m){ localStorage.setItem(CHAVE_MEUS, JSON.stringify(m)); }
-
-function desenharChips(){
-  chips.innerHTML = '';
-  for (const nome of Object.keys(PREDEFINIDOS)) {
-    const b = document.createElement('button');
-    b.textContent = nome;
-    b.addEventListener('click', () => aplicarValores(PREDEFINIDOS[nome]));
-    chips.appendChild(b);
-  }
-  const meus = meusModelos();
-  for (const nome of Object.keys(meus)) {
-    const b = document.createElement('button');
-    b.className = 'meu';
-    b.innerHTML = `${nome}<span class="apagar" title="Apagar">×</span>`;
-    b.addEventListener('click', (ev) => {
-      if (ev.target.classList.contains('apagar')) {
-        const m = meusModelos(); delete m[nome]; gravarModelos(m); desenharChips();
-      } else {
-        aplicarValores(meus[nome]);
+  // ── FADE IN (IntersectionObserver) ───────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
-    chips.appendChild(b);
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
   }
-}
 
-function aplicarValores(valores){
-  Object.assign(estado, valores);
-  for (const c of TODOS) {
-    const el = document.querySelector(`[data-nome="${c.nome}"]`);
-    if (!el) continue;
-    if (c.tipo === 'booleano') el.checked = estado[c.nome];
-    else el.value = estado[c.nome];
-    const rot = document.getElementById('v-' + c.nome);
-    if (rot) rot.textContent = `${estado[c.nome]} ${c.un ?? ''}`;
-  }
-  guardar(); atualizarLeitura(); atualizarPintura(); situacao('ocupado', 'aguardando…'); agendarRender();
-}
 
-document.getElementById('btn-zerar').addEventListener('click', () => {
-  const padrao = {};
-  for (const c of TODOS) padrao[c.nome] = c.valor;
-  aplicarValores(padrao);
-});
+  // ══════════════════════════════════════════════════════════════
+  // APLICAÇÃO AUTOMÁTICA DO BLOCO CFG
+  // Não mexa aqui — edite apenas o bloco window.CFG no topo
+  // ══════════════════════════════════════════════════════════════
+  (function applyCFG() {
+    const C = window.CFG;
+    const nomeCompleto = `${C.titulo} ${C.nomePrimeiro} ${C.nomeSobrenome}`;
+    const nomeTitulo   = `${C.titulo} ${C.nomePrimeiro}`;
+    const nomeSemTit   = `${C.nomePrimeiro} ${C.nomeSobrenome}`;
+    const waHref       = `https://wa.me/${C.whatsapp}`;
+    const waMsgBase    = encodeURIComponent(`Olá, ${nomeTitulo}! Gostaria de agendar uma avaliação.`);
 
-// Salvar só faz sentido quando não há erro: o modelo guardado
-// tem que ser um que exporta.
-document.getElementById('btn-salvar').addEventListener('click', () => {
-  const v = validar();
-  if (v.erros.length) {
-    mostrarDiagnostico(v.erros.concat(['Corrija os erros antes de salvar — um modelo salvo tem que ser um que exporta.']), v.avisos);
-    return;
-  }
-  const nome = (prompt('Nome do modelo:') || '').trim();
-  if (!nome) return;
-  const m = meusModelos();
-  if (m[nome] && !confirm(`Já existe "${nome}". Substituir?`)) return;
-  m[nome] = { ...estado };
-  gravarModelos(m);
-  desenharChips();
-  situacao('pronto', `"${nome}" salvo`);
-  if (svgs.escudo || svgs.estampa)
-    mostrarDiagnostico([], ['Os desenhos SVG não entram no modelo salvo — você reenvia o arquivo ao carregar.']);
-});
+    // Textos com nome
+    document.querySelectorAll('.cfg-nome-completo').forEach(el => el.textContent = nomeCompleto);
+    document.querySelectorAll('.cfg-nome-titulo').forEach(el => el.textContent = nomeTitulo);
+    document.querySelectorAll('.cfg-nome-semtitulo').forEach(el => el.textContent = nomeSemTit);
 
-desenharChips();
+    // Nav logo
+    const navLogo = document.getElementById('nav-logo-link');
+    if (navLogo) navLogo.innerHTML = `${C.titulo} ${C.nomePrimeiro} <span>${C.nomeSobrenome}</span>`;
+    const footerLogo = document.getElementById('footer-logo');
+    if (footerLogo) footerLogo.innerHTML = `${C.titulo} ${C.nomePrimeiro} <span>${C.nomeSobrenome}</span>`;
 
-/* ------------------------------------------------------------
-   SVG → polígono.
+    // Contato
+    document.querySelectorAll('.cfg-wa-label').forEach(el => el.textContent = C.whatsappLabel);
+    document.querySelectorAll('.cfg-endereco').forEach(el => el.textContent = C.endereco);
+    document.querySelectorAll('.cfg-crm').forEach(el => el.textContent = C.crm);
+    document.querySelectorAll('.cfg-cro').forEach(el => el.textContent = C.cro);
 
-   Este build do OpenSCAD não importa SVG, mas o navegador
-   interpreta SVG nativamente. Então o desenho é achatado aqui:
-   cada subcaminho vira uma lista de pontos, normalizada para
-   largura 1 e centrada na origem. O .scad só recebe números.
-   ------------------------------------------------------------ */
+    // Footer ano e nome
+    const anoEl = document.getElementById('cfg-ano');
+    if (anoEl) anoEl.textContent = new Date().getFullYear();
+    const nomeFooter = document.getElementById('cfg-nome-footer');
+    if (nomeFooter) nomeFooter.textContent = nomeCompleto;
 
-const oculto = document.createElement('div');
-oculto.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none';
-document.body.appendChild(oculto);
-
-// Formas básicas viram 'd' para tudo seguir um caminho só.
-function paraD(el){
-  const n = el.tagName.toLowerCase();
-  const g = (a, p = 0) => parseFloat(el.getAttribute(a) || p);
-  if (n === 'path') return el.getAttribute('d') || '';
-  if (n === 'rect') {
-    const x = g('x'), y = g('y'), w = g('width'), h = g('height');
-    return `M${x},${y}H${x+w}V${y+h}H${x}Z`;
-  }
-  if (n === 'circle' || n === 'ellipse') {
-    const cx = g('cx'), cy = g('cy');
-    const rx = n === 'circle' ? g('r') : g('rx');
-    const ry = n === 'circle' ? g('r') : g('ry');
-    return `M${cx-rx},${cy}a${rx},${ry} 0 1,0 ${2*rx},0a${rx},${ry} 0 1,0 ${-2*rx},0Z`;
-  }
-  if (n === 'polygon' || n === 'polyline') {
-    const pts = (el.getAttribute('points') || '').trim().split(/[\s,]+/);
-    if (pts.length < 4) return '';
-    let d = `M${pts[0]},${pts[1]}`;
-    for (let i = 2; i < pts.length - 1; i += 2) d += `L${pts[i]},${pts[i+1]}`;
-    return d + 'Z';
-  }
-  return '';
-}
-
-// Um 'd' com vários M vira vários contornos independentes —
-// é isso que faz o miolo de um R ou de um B ficar vazado.
-function subcaminhos(d){
-  const partes = d.match(/[Mm][^Mm]*/g);
-  return partes ? partes.filter(x => x.trim().length > 2) : [];
-}
-
-function svgParaPoligono(texto){
-  const doc = new DOMParser().parseFromString(texto, 'image/svg+xml');
-  const raiz = doc.querySelector('svg');
-  if (!raiz) throw new Error('Arquivo não parece um SVG.');
-
-  oculto.innerHTML = '';
-  oculto.appendChild(document.importNode(raiz, true));
-  const svg = oculto.querySelector('svg');
-  const NS = 'http://www.w3.org/2000/svg';
-
-  const contornos = [];
-  for (const el of svg.querySelectorAll('path,rect,circle,ellipse,polygon,polyline')) {
-    const d = paraD(el);
-    if (!d) continue;
-    const m = el.getCTM();
-
-    for (const sub of subcaminhos(d)) {
-      const tmp = document.createElementNS(NS, 'path');
-      tmp.setAttribute('d', sub);
-      svg.appendChild(tmp);
-
-      let comp = 0;
-      try { comp = tmp.getTotalLength(); } catch (_) {}
-      if (comp > 0.5) {
-        const n = Math.max(16, Math.min(220, Math.round(comp / 0.5)));
-        const pts = [];
-        for (let i = 0; i < n; i++) {
-          let pt = tmp.getPointAtLength(comp * i / n);
-          if (m) pt = new DOMPoint(pt.x, pt.y).matrixTransform(m);
-          pts.push([pt.x, pt.y]);
-        }
-        contornos.push(pts);
+    // WhatsApp — todos os hrefs que eram # e têm data-track whatsapp ou são btn-whatsapp
+    document.querySelectorAll('a[data-track="hero_whatsapp"], a[data-track="cta_final_whatsapp"], a[data-track="float_whatsapp"], .btn-whatsapp, .floating-wa').forEach(el => {
+      el.href = waHref;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+    // Links de WhatsApp no rodapé (sem data-track)
+    document.querySelectorAll('a.cfg-wa-label, footer a[href="#"]').forEach(el => {
+      if (el.textContent.includes(C.whatsappLabel) || el.querySelector('.cfg-wa-label')) {
+        el.href = waHref;
       }
-      svg.removeChild(tmp);
-    }
-  }
-  oculto.innerHTML = '';
-
-  if (!contornos.length)
-    throw new Error('Nenhum contorno fechado. No Inkscape: Caminho → Objeto para caminho e Contorno para caminho.');
-
-  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-  for (const c of contornos) for (const [x, y] of c) {
-    if (x < x0) x0 = x; if (x > x1) x1 = x;
-    if (y < y0) y0 = y; if (y > y1) y1 = y;
-  }
-  const larg = x1 - x0, alt = y1 - y0;
-  if (!(larg > 0) || !(alt > 0)) throw new Error('O desenho ficou sem dimensão.');
-
-  // largura 1, centrado, com Y invertido (no SVG o Y cresce para baixo)
-  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
-  const pontos = [], caminhos = [];
-  for (const c of contornos) {
-    const idx = [];
-    for (const [x, y] of c) {
-      idx.push(pontos.length);
-      pontos.push([(x - cx) / larg, -(y - cy) / larg]);
-    }
-    caminhos.push(idx);
-  }
-  return { pontos, caminhos, proporcao: larg / alt, contornos: contornos.length };
-}
-
-function comoScad(nome, r){
-  const num = (v) => Math.round(v * 100000) / 100000;
-  if (!r) return `${nome}_pts = [];\n${nome}_paths = [];\n`;
-  return `${nome}_pts = [${r.pontos.map(p => `[${num(p[0])},${num(p[1])}]`).join(',')}];\n`
-       + `${nome}_paths = [${r.caminhos.map(c => `[${c.join(',')}]`).join(',')}];\n`;
-}
-
-// Os desenhos ficam fora do estado: são grandes demais para a URL.
-const svgs  = {};
-const props = {};
-
-function arquivosScad(){
-  return { 'svg_dados.scad': comoScad('escudo', svgs.escudo) + comoScad('estampa', svgs.estampa) };
-}
-
-for (const c of CAMPOS.filter(x => x.tipo === 'arquivo')) {
-  document.getElementById('f-' + c.nome).addEventListener('change', async (ev) => {
-    const arq = ev.target.files && ev.target.files[0];
-    const rot = document.getElementById('v-' + c.nome);
-
-    if (!arq) {
-      delete svgs[c.chave]; delete props[c.chave];
-      rot.textContent = 'nenhum';
-    } else {
-      try {
-        const r = svgParaPoligono(await arq.text());
-        svgs[c.chave]  = r;
-        props[c.chave] = r.proporcao;
-        rot.textContent = `${r.contornos} contorno${r.contornos > 1 ? 's' : ''}`;
-      } catch (erro) {
-        delete svgs[c.chave]; delete props[c.chave];
-        rot.textContent = 'falhou';
-        situacao('erro', 'SVG não abriu');
-        mostrarDiagnostico([erro.message], []);
-        return;
-      }
-    }
-    situacao('ocupado', 'aguardando…');
-    atualizarLeitura();
-    agendarRender();
-  });
-}
-
-painel.addEventListener('input', (ev) => {
-  const nome = ev.target.dataset.nome;
-  if (!nome) return;
-  const c = TODOS.find(x => x.nome === nome);
-
-  estado[nome] = c.tipo === 'booleano' ? ev.target.checked
-               : (c.tipo === 'texto' || c.tipo === 'opcao') ? ev.target.value
-               : Number(ev.target.value);
-
-  const rot = document.getElementById('v-' + nome);
-  if (rot) rot.textContent = `${estado[nome]} ${c.un}`;
-
-  guardar();
-  atualizarLeitura();
-  atualizarPintura();
-  if (c.nome === 'formato') { rotularBotao(); return; }
-  if (c.nome === 'preco_kg') return;   // custo não muda a geometria
-  situacao('ocupado', 'aguardando…');
-  agendarRender();
-});
-
-/* ============================================================
-   5. Cena
-   ============================================================ */
-const tela = document.getElementById('tela');
-const renderizador = new THREE.WebGLRenderer({ canvas: tela, antialias:true });
-renderizador.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderizador.shadowMap.enabled = true;
-renderizador.shadowMap.type = THREE.PCFSoftShadowMap;
-
-const cena = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(38, 1, 1, 5000);
-
-cena.add(new THREE.HemisphereLight(0xBFE8D6, 0x0A0F0D, 0.85));
-const luz = new THREE.DirectionalLight(0xffffff, 1.5);
-luz.position.set(140, 260, 190);
-luz.castShadow = true;
-luz.shadow.mapSize.set(1024, 1024);
-luz.shadow.camera.left = -200; luz.shadow.camera.right = 200;
-luz.shadow.camera.top  =  200; luz.shadow.camera.bottom = -200;
-cena.add(luz);
-cena.add(new THREE.DirectionalLight(0x6FA893, 0.35).translateX(-160));
-
-// Chão: grade a cada 10 mm e sombra projetada. Dá escala à peça.
-const grade = new THREE.GridHelper(400, 40, 0x1E2C26, 0x16211C);
-cena.add(grade);
-const chao = new THREE.Mesh(
-  new THREE.PlaneGeometry(600, 600),
-  new THREE.ShadowMaterial({ opacity:0.42 })
-);
-chao.rotation.x = -Math.PI / 2;
-chao.position.y = 0.02;
-chao.receiveShadow = true;
-cena.add(chao);
-
-const material = new THREE.MeshStandardMaterial({ color:0x10B981, roughness:0.5, metalness:0.05 });
-let malha = null;
-
-let giro = 0.7, inclina = 1.15, distancia = 320;
-let arrastando = false, ux = 0, uy = 0;
-tela.addEventListener('pointerdown', e => { arrastando = true; ux=e.clientX; uy=e.clientY; tela.setPointerCapture(e.pointerId); });
-tela.addEventListener('pointerup',   e => { arrastando = false; tela.releasePointerCapture(e.pointerId); });
-tela.addEventListener('pointermove', e => {
-  if (!arrastando) return;
-  giro    -= (e.clientX - ux) * 0.008;
-  inclina -= (e.clientY - uy) * 0.008;
-  inclina  = Math.max(0.12, Math.min(Math.PI/2 - 0.02, inclina));
-  ux = e.clientX; uy = e.clientY;
-});
-tela.addEventListener('wheel', e => {
-  e.preventDefault();
-  distancia = Math.max(80, Math.min(1400, distancia * (1 + Math.sign(e.deltaY) * 0.12)));
-}, { passive:false });
-
-let alvoY = 50;
-function ajustarTamanho(){
-  const l = tela.clientWidth, a = tela.clientHeight;
-  if (!l || !a) return;
-  renderizador.setSize(l, a, false);
-  camera.aspect = l / a;
-  camera.updateProjectionMatrix();
-}
-addEventListener('resize', ajustarTamanho);
-
-function laco(){
-  ajustarTamanho();
-  camera.position.set(
-    distancia * Math.sin(inclina) * Math.sin(giro),
-    alvoY + distancia * Math.cos(inclina),
-    distancia * Math.sin(inclina) * Math.cos(giro)
-  );
-  camera.lookAt(0, alvoY, 0);
-  renderizador.render(cena, camera);
-  requestAnimationFrame(laco);
-}
-laco();
-
-/* ============================================================
-   6. STL → geometria. O volume sai da própria malha, então é
-   o volume real do sólido, não uma fórmula aproximada.
-   ============================================================ */
-function lerSTL(buffer){
-  const dv = new DataView(buffer);
-  const n = buffer.byteLength >= 84 ? dv.getUint32(80, true) : 0;
-  return (buffer.byteLength === 84 + n * 50) ? lerBinario(dv, n)
-                                             : lerTexto(new TextDecoder().decode(buffer));
-}
-function lerBinario(dv, n){
-  const pos = new Float32Array(n * 9);
-  for (let i = 0, p = 0; i < n; i++){
-    let o = 84 + i * 50 + 12;
-    for (let v = 0; v < 9; v++, o += 4) pos[p++] = dv.getFloat32(o, true);
-  }
-  return pos;
-}
-function lerTexto(txt){
-  const pos = [];
-  const re = /vertex\s+([-\d.eE+]+)\s+([-\d.eE+]+)\s+([-\d.eE+]+)/g;
-  let m; while ((m = re.exec(txt))) pos.push(+m[1], +m[2], +m[3]);
-  return new Float32Array(pos);
-}
-function volumeMM3(pos){
-  let v = 0;
-  for (let i = 0; i < pos.length; i += 9){
-    const ax=pos[i],ay=pos[i+1],az=pos[i+2];
-    const bx=pos[i+3],by=pos[i+4],bz=pos[i+5];
-    const cx=pos[i+6],cy=pos[i+7],cz=pos[i+8];
-    v += ax*(by*cz - bz*cy) - ay*(bx*cz - bz*cx) + az*(bx*cy - by*cx);
-  }
-  return Math.abs(v) / 6;
-}
-function montar(pos){
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  g.computeVertexNormals();
-  g.computeBoundingBox();
-  const c = new THREE.Vector3();
-  g.boundingBox.getCenter(c);
-  g.translate(-c.x, -c.y, -g.boundingBox.min.z);   // apoia no chão
-  g.rotateX(-Math.PI / 2);                          // modelo Z-cima → cena Y-cima
-  return g;
-}
-
-/* ============================================================
-   7. Worker
-   ============================================================ */
-const worker = new Worker('./worker.js', { type:'module' });
-let scadFonte = '';
-let proximoId = 0;
-const pendentes = new Map();
-
-worker.onerror = (e) => {
-  situacao('erro', 'falhou');
-  mostrarDiagnostico(['O worker não carregou.\n' + (e.message || e) +
-    '\n\nConfira a pasta wasm/: openscad.js, openscad.wasm.js, openscad.wasm e openscad.fonts.js.'], []);
-  e.preventDefault();
-};
-worker.onmessageerror = () => {
-  situacao('erro', 'falhou');
-  mostrarDiagnostico(['O worker respondeu algo que a página não conseguiu ler.'], []);
-};
-worker.onmessage = ({ data }) => {
-  const r = pendentes.get(data.id);
-  if (!r) return;
-  pendentes.delete(data.id);
-  r(data);
-};
-
-function renderizar(parametros, reiniciar = false){
-  const id = proximoId++;
-  return new Promise(resolver => {
-    pendentes.set(id, resolver);
-    setTimeout(() => {
-      if (!pendentes.has(id)) return;
-      pendentes.delete(id);
-      resolver({ ok:false, erro:'Passou de 2 minutos sem resposta do OpenSCAD.\nAbra o Console para ver o que travou.' });
-    }, 120000);
-    worker.postMessage({ id, scad: scadFonte, parametros, reiniciar, arquivos: arquivosScad() });
-  });
-}
-
-/* ============================================================
-   8. Fluxo
-   ============================================================ */
-const corpoEl   = document.body;
-const estadoEl  = document.getElementById('estado');
-const diagEl    = document.getElementById('diagnostico');
-const btnStl    = document.getElementById('btn-stl');
-function rotularBotao(){ btnStl.textContent = 'Exportar ' + (estado.formato === '3mf' ? '3MF' : 'STL'); }
-const btnScad   = document.getElementById('btn-scad');
-
-let ultimoVolume = 0;
-
-function situacao(tipo, texto){
-  corpoEl.dataset.estado = tipo;
-  estadoEl.textContent = texto;
-}
-
-// O OpenSCAD em WASM às vezes lança um ponteiro de exceção em
-// vez de uma mensagem. Traduz para algo acionável.
-function traduzErro(txt){
-  if (/^\s*\d{6,}\s*$/.test(String(txt).trim()))
-    return 'O OpenSCAD abortou sem mensagem — quase sempre é falta de memória.\n'
-         + 'Reduza a resolução da exportação, o número de motivos da estampa '
-         + 'ou a quantidade de texto nas faixas.';
-  return txt;
-}
-
-function mostrarDiagnostico(erros, avisos){
-  diagEl.innerHTML = '';
-  const escapar = (t) => String(t).replace(/[&<>]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]));
-  for (const t of erros)  diagEl.insertAdjacentHTML('beforeend', `<div class="e">${escapar(t)}</div>`);
-  for (const t of avisos) diagEl.insertAdjacentHTML('beforeend', `<div class="a">${escapar(t)}</div>`);
-}
-
-let tarefa = null, ocupado = false;
-
-function agendarRender(){
-  clearTimeout(tarefa);
-  tarefa = setTimeout(atualizarPrevia, 350);
-}
-
-async function atualizarPrevia(){
-  const v = validar();
-  mostrarDiagnostico(v.erros, v.avisos);
-  if (v.erros.length){
-    situacao('erro', `${v.erros.length} erro${v.erros.length>1?'s':''}`);
-    btnStl.disabled = true;
-    return;
-  }
-  if (ocupado){ agendarRender(); return; }
-
-  ocupado = true;
-  situacao('ocupado', 'renderizando…');
-  btnStl.disabled = true;
-
-  const t = performance.now();
-  const r = await renderizar(paraOpenscad({ resolucao: RES_PREVIA }));
-  ocupado = false;
-
-  if (!r.ok){
-    situacao('erro', 'o OpenSCAD recusou');
-    mostrarDiagnostico([traduzErro(r.erro) + (r.log ? '\n\n' + r.log : '')], []);
-    return;
-  }
-
-  const pos = lerSTL(r.stl.buffer);
-  if (pos.length < 9){
-    situacao('erro', 'sólido vazio');
-    mostrarDiagnostico(['O OpenSCAD terminou sem erro mas não produziu geometria — '
-      + 'alguma operação consumiu a peça inteira. Revise parede, fundo e profundidade da gravação.'], []);
-    return;
-  }
-
-  ultimoVolume = volumeMM3(pos);
-  if (malha){ cena.remove(malha); malha.geometry.dispose(); }
-  malha = new THREE.Mesh(montar(pos), material);
-  malha.castShadow = true;
-  cena.add(malha);
-  alvoY = estado.altura / 2;
-
-  btnStl.disabled = false;
-  atualizarLeitura();
-  situacao('pronto', `${Math.round(performance.now() - t)} ms · ${(pos.length/9).toLocaleString('pt-BR')} triângulos`);
-}
-
-// O Safari ignora click() em link que não está no documento,
-// então o link precisa entrar no DOM antes. E como alguns
-// navegadores bloqueiam o download mesmo assim, fica também um
-// link visível no painel como saída manual.
-
-/* ============================================================
-   Exportação em 3MF.
-
-   3MF é um ZIP com XML dentro. Diferente do STL, ele guarda a
-   unidade — é por isso que um STL às vezes chega no fatiador em
-   polegadas. Também é malha indexada, então o arquivo fica bem
-   menor que o mesmo modelo em STL.
-
-   O ZIP é escrito à mão, sem compressão (método 0), para não
-   depender de biblioteca nenhuma.
-   ============================================================ */
-
-const TABELA_CRC = (() => {
-  const t = new Uint32Array(256);
-  for (let n = 0; n < 256; n++) {
-    let c = n;
-    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
-    t[n] = c >>> 0;
-  }
-  return t;
-})();
-
-function crc32(bytes){
-  let c = 0xFFFFFFFF;
-  for (let i = 0; i < bytes.length; i++) c = TABELA_CRC[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
-  return (c ^ 0xFFFFFFFF) >>> 0;
-}
-
-function zipSemCompressao(entradas){
-  const cod = new TextEncoder();
-  const locais = [], centrais = [];
-  let deslocamento = 0;
-
-  for (const [nome, texto] of entradas) {
-    const dados = cod.encode(texto);
-    const nomeB = cod.encode(nome);
-    const soma  = crc32(dados);
-
-    const cab = new DataView(new ArrayBuffer(30));
-    cab.setUint32(0, 0x04034B50, true);
-    cab.setUint16(4, 20, true);
-    cab.setUint32(14, soma, true);
-    cab.setUint32(18, dados.length, true);
-    cab.setUint32(22, dados.length, true);
-    cab.setUint16(26, nomeB.length, true);
-    locais.push(new Uint8Array(cab.buffer), nomeB, dados);
-
-    const cen = new DataView(new ArrayBuffer(46));
-    cen.setUint32(0, 0x02014B50, true);
-    cen.setUint16(4, 20, true);
-    cen.setUint16(6, 20, true);
-    cen.setUint32(16, soma, true);
-    cen.setUint32(20, dados.length, true);
-    cen.setUint32(24, dados.length, true);
-    cen.setUint16(28, nomeB.length, true);
-    cen.setUint32(42, deslocamento, true);
-    centrais.push(new Uint8Array(cen.buffer), nomeB);
-
-    deslocamento += 30 + nomeB.length + dados.length;
-  }
-
-  const tamCentral = centrais.reduce((n, b) => n + b.length, 0);
-  const fim = new DataView(new ArrayBuffer(22));
-  fim.setUint32(0, 0x06054B50, true);
-  fim.setUint16(8,  entradas.length, true);
-  fim.setUint16(10, entradas.length, true);
-  fim.setUint32(12, tamCentral, true);
-  fim.setUint32(16, deslocamento, true);
-
-  const partes = locais.concat(centrais, [new Uint8Array(fim.buffer)]);
-  const total = partes.reduce((n, b) => n + b.length, 0);
-  const saida = new Uint8Array(total);
-  let i = 0;
-  for (const b of partes) { saida.set(b, i); i += b.length; }
-  return saida;
-}
-
-// Triângulos soltos viram malha indexada: vértices repetidos
-// colapsam, que é o que o 3MF exige e o que encolhe o arquivo.
-function indexar(pos){
-  const mapa = new Map();
-  const verts = [], tris = [];
-  const chave = (x, y, z) => `${Math.round(x*1e4)},${Math.round(y*1e4)},${Math.round(z*1e4)}`;
-
-  for (let i = 0; i < pos.length; i += 9) {
-    const t = [];
-    for (let v = 0; v < 3; v++) {
-      const x = pos[i+v*3], y = pos[i+v*3+1], z = pos[i+v*3+2];
-      const k = chave(x, y, z);
-      let idx = mapa.get(k);
-      if (idx === undefined) { idx = verts.length; verts.push([x, y, z]); mapa.set(k, idx); }
-      t.push(idx);
-    }
-    if (t[0] !== t[1] && t[1] !== t[2] && t[0] !== t[2]) tris.push(t);
-  }
-  return { verts, tris };
-}
-
-// Recebe uma ou mais partes. Com mais de uma, elas viram
-// componentes de um mesmo objeto: o fatiador mostra uma peça
-// com partes, e cada parte aceita um filamento diferente.
-function para3MF(partes){
-  const n = (v) => Math.round(v * 1000) / 1000;
-  let corpos = '', totalV = 0, totalT = 0;
-
-  partes.forEach((parte, i) => {
-    const { verts, tris } = indexar(parte.pos);
-    totalV += verts.length; totalT += tris.length;
-    corpos += `  <object id="${i+1}" type="model" name="${parte.nome}">\n   <mesh>\n    <vertices>\n`
-      + verts.map(v => `     <vertex x="${n(v[0])}" y="${n(v[1])}" z="${n(v[2])}"/>`).join('\n')
-      + '\n    </vertices>\n    <triangles>\n'
-      + tris.map(t => `     <triangle v1="${t[0]}" v2="${t[1]}" v3="${t[2]}"/>`).join('\n')
-      + '\n    </triangles>\n   </mesh>\n  </object>\n';
-  });
-
-  let raiz = partes.length;
-  if (partes.length > 1) {
-    raiz = partes.length + 1;
-    corpos += `  <object id="${raiz}" type="model" name="caneca">\n   <components>\n`
-      + partes.map((p, i) => `    <component objectid="${i+1}"/>`).join('\n')
-      + '\n   </components>\n  </object>\n';
-  }
-
-  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    + '<model unit="millimeter" xml:lang="en-US" '
-    + 'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">\n'
-    + ' <metadata name="Application">Touche3D</metadata>\n'
-    + ' <resources>\n' + corpos + ' </resources>\n'
-    + ` <build>\n  <item objectid="${raiz}"/>\n </build>\n</model>\n`;
-
-  const tipos = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
-    + '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
-    + '<Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/>'
-    + '</Types>';
-
-  const rels = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
-    + '<Relationship Id="rel0" Target="/3D/3dmodel.model" '
-    + 'Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>'
-    + '</Relationships>';
-
-  return {
-    dados: zipSemCompressao([
-      ['[Content_Types].xml', tipos],
-      ['_rels/.rels', rels],
-      ['3D/3dmodel.model', xml],
-    ]),
-    vertices: totalV,
-    triangulos: totalT,
-  };
-}
-
-function baixar(dados, nome, tipo){
-  const url = URL.createObjectURL(new Blob([dados], { type: tipo }));
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = nome;
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  mostrarLinkManual(url, nome);
-  setTimeout(() => URL.revokeObjectURL(url), 120000);
-}
-
-function mostrarLinkManual(url, nome){
-  const div = document.createElement('div');
-  div.className = 'a';
-  div.innerHTML = `Se o arquivo não apareceu na pasta de downloads, `
-    + `<a href="${url}" download="${nome}" style="color:var(--verde)">clique aqui para baixar ${nome}</a>. `
-    + `O link vale por 2 minutos.`;
-  diagEl.appendChild(div);
-}
-
-const apelido = () => (estado.texto || 'sem-texto').replace(/[^\w-]+/g, '-').toLowerCase();
-
-btnStl.addEventListener('click', async () => {
-  btnStl.disabled = true;
-
-  // Cada tentativa começa com uma instância limpa do OpenSCAD:
-  // depois de um abort, o runtime não se recupera sozinho.
-  const tentativas = [estado.res_export, 96, 80, 64, RES_PREVIA]
-    .filter(v => v > 0)
-    .filter((v, i, a) => a.indexOf(v) === i)
-    .sort((x, y) => y - x);
-
-  // Duas passadas quando o relevo vai separado: o fatiador
-  // recebe uma peça com duas partes e cada uma aceita um
-  // filamento. Pintar letra com o pincel é inviável.
-  const separar = estado.formato === '3mf'
-                && estado.separar
-                && estado.peca === 'caneca';
-
-  let ultimo = null;
-
-  for (const res of tentativas) {
-    situacao('ocupado', `exportando em ${res}…`);
-    const partes = [];
-    let falhou = null;
-
-    for (const p of (separar ? ['corpo', 'relevo'] : ['tudo'])) {
-      const r = await renderizar(paraOpenscad({ resolucao: res, parte: p }), true);
-      if (!r.ok) { falhou = r; break; }
-      const pos = lerSTL(r.stl.buffer);
-      if (pos.length < 9) {
-        // "relevo" vazio só quer dizer que não há nada saliente.
-        if (p === 'relevo') continue;
-        falhou = { erro: 'O OpenSCAD terminou sem erro mas a peça saiu vazia.' };
-        break;
-      }
-      partes.push({ nome: p === 'relevo' ? 'relevo' : 'corpo', pos, stl: r.stl });
+    });
+    // Google Maps
+    document.querySelectorAll('a[href="#"]').forEach(el => {
+      if (el.textContent.trim().includes('Google Maps')) el.href = C.googleMaps;
+    });
+    // Instagram
+    document.querySelectorAll('a[aria-label="Instagram"]').forEach(el => el.href = C.instagram);
+
+    // Logo do nav
+    const navLogoImg = document.getElementById('nav-logo-img');
+    if (navLogoImg && C.logoNav) navLogoImg.src = C.logoNav;
+
+    // Badge de anos no hero
+    const badge = document.querySelector('.hero-badge-num');
+    if (badge) badge.textContent = C.anosExp;
+
+    // Meta tags
+    document.title = C.metaTitle;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.content = C.metaDesc;
+
+    // Foto do hero
+    const placeholder = document.getElementById('hero-placeholder');
+    if (placeholder && C.fotoHero) {
+      const img = document.createElement('img');
+      img.src = C.fotoHero;
+      img.alt = nomeCompleto;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:4px 4px 0 0;display:block;';
+      placeholder.replaceWith(img);
     }
 
-    if (falhou) { ultimo = falhou; continue; }
-
-    btnStl.disabled = false;
-    const base = estado.peca === 'gabarito' ? 'escudo-placa' : `caneca-${apelido()}`;
-
-    if (estado.formato === '3mf') {
-      const m = para3MF(partes);
-      baixar(m.dados, base + '.3mf', 'model/3mf');
-      situacao('pronto', `3MF salvo em ${res} · ${partes.length} parte${partes.length>1?'s':''} · `
-                       + `${m.triangulos.toLocaleString('pt-BR')} triângulos`);
-      if (partes.length > 1)
-        mostrarDiagnostico([], ['No Bambu Studio a peça chega com duas partes: corpo e relevo. '
-          + 'Clique na parte "relevo" na árvore de objetos e escolha outro filamento — não precisa pincel.\n'
-          + 'Para as faixas, use botão direito → Height range modifier: elas são faixas de altura exatas.']);
-      else if (separar)
-        mostrarDiagnostico([], ['Não há nada para separar. Coloque o texto em "Embutido" '
-          + '(ou saliente) para ele virar peça de outra cor.']);
-    } else {
-      baixar(partes[0].stl, base + '.stl', 'model/stl');
-      situacao('pronto', `STL salvo em ${res} · ${(partes[0].pos.length/9).toLocaleString('pt-BR')} triângulos`);
+    // Depoimentos — renderizar do CFG
+    const depGrid = document.querySelector('.dep-grid');
+    if (depGrid && C.depoimentos) {
+      depGrid.innerHTML = C.depoimentos.map(d => `
+        <div class="dep-card">
+          <div class="dep-quote-mark">"</div>
+          <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="dep-quote">${d.texto}</p>
+          <div class="dep-author">
+            <div class="dep-avatar">${d.iniciais}</div>
+            <div>
+              <div class="dep-name">${d.nome}</div>
+              <div class="dep-proc">${d.proc}</div>
+            </div>
+          </div>
+        </div>`).join('');
     }
 
-    if (res !== tentativas[0])
-      mostrarDiagnostico([], [`A exportação em ${tentativas[0]} não passou; o arquivo saiu em ${res}. `
-        + 'O que muda é só o facetamento da curva do cilindro.']);
-    return;
-  }
+    // Mensagem de sucesso do form com nome da dra
+    const successMsg = document.querySelector('.form-success p');
+    if (successMsg) successMsg.textContent = `Obrigada pelo contato. A equipe da ${nomeTitulo} entrará em contato pelo WhatsApp em breve.`;
 
-  btnStl.disabled = false;
-  situacao('erro', 'a exportação falhou');
-  mostrarDiagnostico([
-    'Nenhuma resolução passou, inclusive a mesma do preview — então não é resolução.\n\n'
-    + 'Último erro: ' + traduzErro(ultimo && ultimo.erro)
-    + ((ultimo && ultimo.log) ? '\n\n' + ultimo.log : '')
-    + '\n\nA geometria está certa; o que falta é memória no navegador.\n'
-    + 'Clique em "Baixar .scad", abra no OpenSCAD do computador, aperte F6 e '
-    + 'exporte em Arquivo → Exportar → 3MF.'
-  ], []);
-});
+    // CTA final eyebrow
+    const ctaEyebrow = document.querySelector('.cta-final-eyebrow');
+    if (ctaEyebrow) ctaEyebrow.textContent = nomeCompleto;
 
-// O .scad baixado é o mesmo modelo, com os valores trocados nas
-// próprias linhas em vez de um bloco no fim. Sem isso o OpenSCAD
-// reclama de cada variável reatribuída, e as anotações de
-// customizer (// [min:max:passo]) se perdem.
-function scadComValores(){
-  let txt = scadFonte;
+  })();
 
-  const trocar = (nome, valor) => {
-    const lit = typeof valor === 'string' ? `"${valor}"` : String(valor);
-    const re = new RegExp('^(' + nome + '\\s*=\\s*)[^;]*;', 'm');
-    if (re.test(txt)) txt = txt.replace(re, `$1${lit};`);
-  };
-
-  for (const c of CAMPOS) if (c.tipo !== 'arquivo') trocar(c.nome, estado[c.nome]);
-  trocar('escudo_svg',  !!svgs.escudo);
-  trocar('estampa_svg', !!svgs.estampa);
-  trocar('resolucao',   estado.res_export);
-  trocar('parte',       'tudo');
-
-  // Os contornos entram no lugar das listas vazias, e o include
-  // some — o arquivo passa a ser autossuficiente.
-  const dados = comoScad('escudo', svgs.escudo) + comoScad('estampa', svgs.estampa);
-  for (const linha of dados.trim().split('\n')) {
-    const nome = linha.slice(0, linha.indexOf(' ='));
-    const re = new RegExp('^(' + nome + '\\s*=\\s*)[^;]*;', 'm');
-    if (re.test(txt)) txt = txt.replace(re, linha);
-  }
-  txt = txt.replace(/^include <svg_dados\.scad>.*$/m,
-    '// (os contornos já estão acima; não há arquivo externo a incluir)');
-
-  const cab = `/* Gerado pelo Touché3D em ${new Date().toLocaleString('pt-BR')}.\n`
-            + `   Renderize com F6 e exporte em Arquivo → Exportar → STL. */\n\n`;
-  return cab + txt;
-}
-
-btnScad.addEventListener('click', () => {
-  baixar(scadComValores(), `caneca-${apelido()}.scad`, 'text/plain');
-});
-
-/* ============================================================
-   9. Leitura dimensional e custo
-   ============================================================ */
-const leituraEl = document.getElementById('leitura');
-// Lata de 473 ml: 66 mm de diâmetro, 168 mm de altura.
-// Lata de 473 ml: 66 mm de diâmetro, 168 mm de altura.
-// Copo Stanley 473: 69 na base, 91 na boca, 165 de altura.
-function folgaLata(){
-  const d = estado.diam_interno, con = estado.conicidade || 0;
-  const util = estado.altura - estado.fundo;
-
-  if (con < 2 && d >= 66.5 && d <= 76)
-    return `<br><span>lata 473</span> folga <b>${((d-66)/2).toFixed(1)}</b> mm por lado`
-         + `, sobra <b>${(168 - util).toFixed(0)}</b> mm de fora`;
-
-  if (con >= 2 && d >= 69 && d <= 80) {
-    // diâmetro do copo na altura em que o suporte termina
-    const noTopo = 69 + (91 - 69) * Math.min(1, util / 165);
-    const fB = (d - 69) / 2;
-    const fT = ((d + con) - noTopo) / 2;
-    return `<br><span>Stanley 473</span> folga <b>${fB.toFixed(1)}</b> mm na base, `
-         + `<b>${fT.toFixed(1)}</b> mm na boca, sobra <b>${(165 - util).toFixed(0)}</b> mm de fora`;
-  }
-  return '';
-}
-
-function atualizarLeitura(){
-  const de  = estado.diam_interno + 2 * estado.parede;
-  // Tronco de cone: π·h·(R² + R·r + r²)/3
-  const con  = estado.conicidade || 0;
-  const rB   = estado.diam_interno/2 + (con/2) * (estado.fundo / estado.altura);
-  const rT   = estado.diam_interno/2 + con/2;
-  const hUtil = estado.altura - estado.fundo;
-  const cap  = Math.PI * hUtil * (rT*rT + rT*rB + rB*rB) / 3 / 1000;
-
-  let linhaCusto = '<span>material</span> <b>—</b>  <span>aguardando render</span>';
-  if (ultimoVolume > 0){
-    const g     = ultimoVolume / 1000 * DENSIDADE;
-    const metro = ultimoVolume / (Math.PI * (DIAM_FILAMENTO/2)**2) / 1000;
-    const custo = g / 1000 * estado.preco_kg;
-    linhaCusto = `<span>peso</span> <b>${g.toFixed(0)}</b> g &nbsp;·&nbsp;
-                  <span>filamento</span> <b>${metro.toFixed(1)}</b> m &nbsp;·&nbsp;
-                  <span>custo</span> <b>R$ ${custo.toFixed(2)}</b>`;
-  }
-
-  if (estado.peca === 'gabarito'){
-    const rex  = estado.diam_interno/2 + estado.parede;
-    const arco = svgs.escudo ? estado.escudo_larg
-                          : estado.escudo_ang * Math.PI/180 * (rex - estado.escudo_prof + estado.escudo_esp/2);
-    const alt  = svgs.escudo ? alturaEscudo() : estado.escudo_alt - 2*estado.escudo_folga;
-    leituraEl.innerHTML = `
-      <span>placa</span> <b>${(svgs.escudo ? arco : arco - 2*estado.escudo_folga).toFixed(1)}</b> ×
-      <b>${alt.toFixed(1)}</b> mm &nbsp;·&nbsp;
-      <span>espessura</span> <b>${estado.escudo_esp.toFixed(1)}</b> mm<br>
-      <span>saliência no rebaixo</span> <b>${(estado.escudo_esp - estado.escudo_prof).toFixed(1)}</b> mm<br>
-      <span class="destaque">${linhaCusto}</span>`;
-    return;
-  }
-
-  leituraEl.innerHTML = `
-    <span>Ø int</span> <b>${estado.diam_interno.toFixed(1)}</b> mm &nbsp;·&nbsp;
-    <span>Ø ext</span> <b>${de.toFixed(1)}</b> mm &nbsp;·&nbsp;
-    <span>alt</span> <b>${estado.altura.toFixed(1)}</b> mm<br>
-    <span>parede</span> <b>${estado.parede.toFixed(1)}</b> mm &nbsp;·&nbsp;
-    <span>fundo</span> <b>${estado.fundo.toFixed(1)}</b> mm &nbsp;·&nbsp;
-    <span>capacidade</span> <b>${cap.toFixed(0)}</b> ml${folgaLata()}<br>
-    <span class="destaque">${linhaCusto}</span>`;
-}
-
-/* ============================================================
-   10. Partida
-   ============================================================ */
-(async function iniciar(){
-  rotularBotao();
-  atualizarLeitura();
-  atualizarPintura();
-  try {
-    scadFonte = await (await fetch('./caneca.scad?v=' + Date.now())).text();
-  } catch (e) {
-    situacao('erro', 'falhou');
-    mostrarDiagnostico(['Não encontrei o caneca.scad. Sirva a pasta por HTTP — '
-      + 'abrir o arquivo direto no navegador não funciona.'], []);
-    return;
-  }
-  atualizarPrevia();
-})();
+  // ── INIT ─────────────────────────────────────────────────────
+  trackPageView();
+  bindButtons();
 </script>
+
+
 </body>
 </html>
