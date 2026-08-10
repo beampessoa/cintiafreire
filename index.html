@@ -58,7 +58,7 @@
   }
   .nav-logo span { color: var(--gold); }
   .nav-logo-img { display: flex; align-items: center; text-decoration: none; }
-  .nav-logo-svg { height: 180px; width: auto; display: block; filter: brightness(0) saturate(100%); }
+  .nav-logo-svg { height: 100px; width: auto; display: block; filter: brightness(0) saturate(100%); }
   .nav-links {
     display: flex;
     gap: 2rem;
@@ -523,14 +523,44 @@
     overflow: hidden;
     border: 1px solid var(--champagne-light);
   }
-  .ad-img-wrap {
-    width: 100%;
-    background: var(--grafite);
+  /* antes/depois */
+  .slider-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    align-items: start;
   }
-  .ad-img-wrap img {
+  .ad-card-wide, .ad-card-side {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--champagne-light);
+  }
+  .ad-card-wide img, .ad-card-side img {
     width: 100%;
-    height: auto;
+    height: 280px;
+    object-fit: cover;
+    object-position: center;
     display: block;
+  }
+  .ad-label {
+    padding: 1.2rem 1.5rem;
+    background: var(--off-white);
+  }
+  .ad-proc {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--grafite);
+    margin-bottom: 0.2rem;
+  }
+  .ad-desc {
+    font-size: 0.73rem;
+    color: var(--grafite-soft);
+    font-weight: 300;
+  }
+  @media (max-width: 900px) {
+    .slider-wrap { grid-template-columns: 1fr; }
+    .ad-card-wide img, .ad-card-side img { height: 220px; }
   }
   .ad-label {
     padding: 1.2rem 1.5rem;
@@ -1533,28 +1563,25 @@ window.CFG = {
       <a href="#" class="btn-primary" data-track="ad_agendar" data-modal="antes_depois">Agendar Avaliação</a>
     </div>
     <div class="slider-wrap fade-in">
-      <div class="ad-card">
-        <div class="ad-img-wrap">
-          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/boca.jpeg" alt="Harmonização Facial">
-        </div>
+      <!-- Boca — paisagem, card largo -->
+      <div class="ad-card-wide">
+        <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/boca.jpeg" alt="Harmonização Facial" style="height: auto; object-fit: contain; background: #000;">
         <div class="ad-label">
           <div class="ad-proc">Harmonização Facial</div>
           <div class="ad-desc">Preenchimento labial + definição de contorno</div>
         </div>
       </div>
-      <div class="ad-card">
-        <div class="ad-img-wrap">
-          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/papada.jpeg" alt="Papada">
-        </div>
+      <!-- Papada — vertical, foto à esquerda + texto à direita -->
+      <div class="ad-card-side">
+        <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/papada.jpeg" alt="Papada" style="height: auto; object-fit: contain; background: #000;">
         <div class="ad-label">
           <div class="ad-proc">Papada</div>
           <div class="ad-desc">Redução e definição do contorno cervical</div>
         </div>
       </div>
-      <div class="ad-card">
-        <div class="ad-img-wrap">
-          <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/Rejuvenescimento.jpeg" alt="Rejuvenescimento">
-        </div>
+      <!-- Rejuvenescimento — paisagem, card largo -->
+      <div class="ad-card-wide">
+        <img src="https://woafnemdudmfkhagshte.supabase.co/storage/v1/object/public/Imagens/Rejuvenescimento.jpeg" alt="Rejuvenescimento Facial" style="object-position: center center; height: 360px;">
         <div class="ad-label">
           <div class="ad-proc">Rejuvenescimento Facial</div>
           <div class="ad-desc">Protocolo integrado de bioestimulação</div>
